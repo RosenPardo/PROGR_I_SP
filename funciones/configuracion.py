@@ -4,11 +4,11 @@ import pygame as pg
 def iniciar_juego():
     pg.init()
 
-    icono = pg.image.load("D:/UTN/Programacion_I_312/Pygame/img/icono.png")
+    # icono = pg.image.load("D:/UTN/Programacion_I_312/Pygame/img/icono.png")
     titulo = "SUDOKU UTN FRA"
     dimension_pantalla = (750, 750)
 
-    pg.display.set_icon(icono)
+    # pg.display.set_icon(icono)
     pg.display.set_caption(titulo)
     pantalla = pg.display.set_mode(dimension_pantalla)
     pantalla.fill((77, 154, 163))
