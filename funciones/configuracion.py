@@ -1,5 +1,18 @@
 import pygame as pg
 
+pos_x = 52
+pos_y = 52
+ancho = 70
+alto = 70
+COLOR_BLANCO = (235, 235, 235)
+COLOR_NEGRO = (0, 0, 0)
+COLOR_GRIS = (200, 200, 200)
+COLOR_AMARILLO = (255, 203, 99)
+espaciado = 72
+espaciado_extra = 2
+columnas_rangos = [(52, 122), (124, 194), (196, 266), (268, 338), (340, 410), (412, 482), (484, 554), (556, 626), (628, 698)]
+filas_rangos = [(52, 122), (124, 194), (196, 266), (268, 338), (340, 410), (412, 482), (484, 554), (556, 626), (628, 698)]
+
 
 def iniciar_juego():
     pg.init()
@@ -15,40 +28,40 @@ def iniciar_juego():
 
     return pantalla
 
-
-
-pos_x = 52
-pos_y = 52
-ancho = 70
-alto = 70
-COLOR_BLANCO = (235, 235, 235)
-COLOR_NEGRO = (0, 0, 0)
-COLOR_GRIS = (200, 200, 200)
-espaciado = 72
-espaciado_extra = 2
-
 def rectangulo(pantalla, color, pos_x, pos_y, ancho, alto):
     pg.draw.rect(pantalla, color, (pos_x, pos_y, ancho, alto))
 
 def dibujar_grilla(pantalla):
-    rectangulo(pantalla, COLOR_NEGRO, pos_x=52, pos_y= 52, ancho = 645, alto = 645)
-    rectangulo(pantalla, COLOR_GRIS, pos_x=52, pos_y= 52, ancho = 214, alto = 214)
-    rectangulo(pantalla, COLOR_GRIS, pos_x=268, pos_y= 52, ancho = 214, alto = 214)
-    rectangulo(pantalla, COLOR_GRIS, pos_x=484, pos_y= 52, ancho = 214, alto = 214)
+    rectangulo(pantalla, COLOR_NEGRO, pos_x = 52, pos_y= 52, ancho = 645, alto = 645)
+    rectangulo(pantalla, COLOR_GRIS, pos_x = 52, pos_y= 52, ancho = 214, alto = 214)
+    rectangulo(pantalla, COLOR_GRIS, pos_x = 268, pos_y= 52, ancho = 214, alto = 214)
+    rectangulo(pantalla, COLOR_GRIS, pos_x = 484, pos_y= 52, ancho = 214, alto = 214)
 
-    rectangulo(pantalla, COLOR_GRIS, pos_x=52, pos_y= 268, ancho = 214, alto = 214)
-    rectangulo(pantalla, COLOR_GRIS, pos_x=268, pos_y= 268, ancho = 214, alto = 214)
-    rectangulo(pantalla, COLOR_GRIS, pos_x=484, pos_y= 268, ancho = 214, alto = 214)
+    rectangulo(pantalla, COLOR_GRIS, pos_x = 52, pos_y= 268, ancho = 214, alto = 214)
+    rectangulo(pantalla, COLOR_GRIS, pos_x = 268, pos_y= 268, ancho = 214, alto = 214)
+    rectangulo(pantalla, COLOR_GRIS, pos_x = 484, pos_y= 268, ancho = 214, alto = 214)
 
-    rectangulo(pantalla, COLOR_GRIS, pos_x=52, pos_y= 484, ancho = 214, alto = 214)
-    rectangulo(pantalla, COLOR_GRIS, pos_x=268, pos_y= 484, ancho = 214, alto = 214)
-    rectangulo(pantalla, COLOR_GRIS, pos_x=484, pos_y= 484, ancho = 214, alto = 214)
+    rectangulo(pantalla, COLOR_GRIS, pos_x = 52, pos_y= 484, ancho = 214, alto = 214)
+    rectangulo(pantalla, COLOR_GRIS, pos_x = 268, pos_y= 484, ancho = 214, alto = 214)
+    rectangulo(pantalla, COLOR_GRIS, pos_x = 484, pos_y= 484, ancho = 214, alto = 214)
 
     for fila in range(9):
         for columna in range(9):
             x = pos_x + columna * espaciado
             y = pos_y + fila * espaciado
             rectangulo(pantalla, COLOR_BLANCO, x, y, ancho, alto)
+
+def celda_seleccionada(evento, columnas_rangos, filas_rangos, pantalla):
+                x, y = evento.pos
+                for col in range(9):
+                    inicio_x, fin_x = columnas_rangos[col]
+                    if inicio_x <= x <= fin_x:
+                        for fila in range(9):
+                            inicio_y, fin_y = filas_rangos[fila]
+                            if inicio_y <= y <= fin_y:
+                                dibujar_grilla(pantalla)
+                                rectangulo(pantalla, COLOR_AMARILLO, inicio_x, inicio_y, 70, 70)
+
 
 """Código DeepSeek:
 import pygame as pg

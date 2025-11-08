@@ -12,31 +12,6 @@ fuente = pg.font.SysFont(None, 80)
 
 dibujar_grilla(pantalla)
 
-columnas_rangos = [
-    (52, 122),    
-    (124, 194),   
-    (196, 266),   
-    (268, 338),   
-    (340, 410),   
-    (412, 482),   
-    (484, 554),   
-    (556, 626),   
-    (628, 698)    
-]
-
-filas_rangos = [
-    (52, 122),    
-    (124, 194),   
-    (196, 266),   
-    (268, 338),   
-    (340, 410),   
-    (412, 482),   
-    (484, 554),   
-    (556, 626),   
-    (628, 698)    
-]
-
-columnas = [52, 122]
 
 while True:
 
@@ -45,15 +20,8 @@ while True:
             pg.quit()
             exit()
         elif evento.type == pg.MOUSEBUTTONDOWN:
-            x, y = evento.pos
-            for col in range(9):
-                inicio_x, fin_x = columnas_rangos[col]
-                if inicio_x <= x <= fin_x:
-                    for fila in range(9):
-                        inicio_y, fin_y = filas_rangos[fila]
-                        if inicio_y <= y <= fin_y:
-                            dibujar_grilla(pantalla)
-                            rectangulo(pantalla, (255, 203, 99), inicio_x, inicio_y, 70, 70)
+            celda_seleccionada(evento, columnas_rangos, filas_rangos, pantalla)
+            
 
 
     pg.display.flip()
