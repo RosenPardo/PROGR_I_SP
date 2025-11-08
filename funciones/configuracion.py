@@ -1,9 +1,4 @@
 import pygame as pg
-# LO AGREGE YO JUANCHI ESTO
-
-
-
-
 
 pos_x = 52
 pos_y = 52
@@ -27,9 +22,7 @@ numero1_redi = pg.transform.scale(numero1,(70,70))
 def iniciar_juego():
     pg.init()
 
-    icono = pg.image.load("./img/icono.png")  #RUTA DE ICONO: COMPU ROSEN
-    
-    
+    icono = pg.image.load("./img/icono.png") 
     pg.display.set_icon(icono)
     
     titulo = "SUDOKU UTN FRA"
@@ -78,40 +71,3 @@ def celda_seleccionada(evento, columnas_rangos, filas_rangos, pantalla):
                                 rectangulo(pantalla, COLOR_AMARILLO, inicio_x, inicio_y, ancho, alto)
                                 return inicio_x, inicio_y
 
-"""Código DeepSeek:
-import pygame as pg
-
-# Constantes
-POS_X = 52
-POS_Y = 52
-ANCHO_CELDA = 70
-ALTO_CELDA = 70
-COLOR_CELDA = (235, 235, 235)
-COLOR_CUADRADO = (200, 200, 200)
-COLOR_BORDE = (0, 0, 0)
-ESPACIADO = 72
-ANCHO_CUADRADO = 214
-ALTO_CUADRADO = 214
-SEPARACION_CUADRADOS = 216  # 214 + 2
-
-def rectangulo(pantalla, color, pos_x, pos_y, ancho, alto):
-    pg.draw.rect(pantalla, color, (pos_x, pos_y, ancho, alto))
-
-def dibujar_grilla(pantalla):
-    # Marco exterior
-    rectangulo(pantalla, COLOR_BORDE, POS_X, POS_Y, 645, 645)
-    
-    # Cuadrados 3x3 principales (regiones del Sudoku)
-    for fila in range(3):
-        for columna in range(3):
-            x = POS_X + columna * SEPARACION_CUADRADOS
-            y = POS_Y + fila * SEPARACION_CUADRADOS
-            rectangulo(pantalla, COLOR_CUADRADO, x, y, ANCHO_CUADRADO, ALTO_CUADRADO)
-    
-    # Celdas individuales 9x9
-    for fila in range(9):
-        for columna in range(9):
-            x = POS_X + columna * ESPACIADO
-            y = POS_Y + fila * ESPACIADO
-            rectangulo(pantalla, COLOR_CELDA, x, y, ANCHO_CELDA, ALTO_CELDA)
-"""
