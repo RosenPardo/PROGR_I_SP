@@ -1,4 +1,9 @@
 import pygame as pg
+# LO AGREGE YO JUANCHI ESTO
+
+
+
+
 
 pos_x = 52
 pos_y = 52
@@ -14,18 +19,23 @@ columnas_rangos = [(52, 122), (124, 194), (196, 266), (268, 338), (340, 410), (4
 filas_rangos = columnas_rangos
 
 
+numero1 = pg.image.load("C:/Users/juanchoneitor/Desktop/pygame/PROGR_I_SP/img/numeros_renderizados/numero_1_render.png")
+
+numero1_redi = pg.transform.scale(numero1,(70,70))
+
+
 def iniciar_juego():
     pg.init()
 
-    icono = pg.image.load("D:/UTN/Programacion_I_312/Pygame/img/icono.png")  #RUTA DE ICONO: COMPU ROSEN
-    #icono = pg.image.load("JUNCITO, PONÉ TU URL") #RUTA DE ICONO: COMPU JUANCHI
+    #icono = pg.image.load("D:/UTN/Programacion_I_312/Pygame/img/icono.png")  #RUTA DE ICONO: COMPU ROSEN
+    icono = pg.image.load("C:/Users/juanchoneitor/Desktop/pygame/PROGR_I_SP/img/icono.png") #RUTA DE ICONO: COMPU JUANCHI
     #icono = pg.image.load("JESSICAAA, TU URL ACÁ") #RUTA DE ICONO: COMPU VALE
     
     
     pg.display.set_icon(icono)
     
     titulo = "SUDOKU UTN FRA"
-    dimension_pantalla = (750, 750)
+    dimension_pantalla = (1002, 750)
 
     pg.display.set_caption(titulo)
     pantalla = pg.display.set_mode(dimension_pantalla)
@@ -51,10 +61,12 @@ def dibujar_grilla(pantalla):
     rectangulo(pantalla, COLOR_GRIS, pos_x = 484, pos_y= 484, ancho = 214, alto = 214)
 
     for fila in range(9):
-        for columna in range(9):
+        for columna in range(9): 
             x = pos_x + columna * espaciado
             y = pos_y + fila * espaciado
             rectangulo(pantalla, COLOR_BLANCO, x, y, ancho, alto)
+
+
 
 def celda_seleccionada(evento, columnas_rangos, filas_rangos, pantalla):
                 x, y = evento.pos
@@ -65,8 +77,8 @@ def celda_seleccionada(evento, columnas_rangos, filas_rangos, pantalla):
                             inicio_y, fin_y = filas_rangos[fila]
                             if inicio_y <= y <= fin_y:
                                 dibujar_grilla(pantalla)
-                                return rectangulo(pantalla, COLOR_AMARILLO, inicio_x, inicio_y, ancho, alto)
-
+                                rectangulo(pantalla, COLOR_AMARILLO, inicio_x, inicio_y, ancho, alto)
+                                return inicio_x, inicio_y
 
 """Código DeepSeek:
 import pygame as pg

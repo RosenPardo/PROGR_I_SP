@@ -1,29 +1,35 @@
-import random, pygame as pg
+import random
+import pygame as pg
 from funciones.configuracion import *
 from funciones.sudoku import *
-
-
-numero_aleatorio = random.randint(1, 9)
-print(numero_aleatorio)
+import funciones.botones as botones
 
 pantalla = iniciar_juego()
-fuente = pg.font.SysFont(None, 80)
-
 
 dibujar_grilla(pantalla)
 
-
 while True:
-
+    botones.create_button(pantalla, 703, 53, 240, 52, "verificar", action=None)
+    botones.create_button(pantalla, 703, 115, 240, 52, "reiniciar", action=None)
+    botones.create_button(pantalla, 703, 177, 240, 52, "volver", action=None)
     for evento in pg.event.get():
         if evento.type == pg.QUIT:
             pg.quit()
             exit()
         elif evento.type == pg.MOUSEBUTTONDOWN:
-            celda_seleccionada(evento, columnas_rangos, filas_rangos, pantalla)
-            
+            cuadrado_seleccionado = celda_seleccionada(evento, columnas_rangos, filas_rangos, pantalla)
+            print(evento.pos)
 
-
+# cuando clikeas fuera de la grilla y apretas 1 rompe  
+        
+        
+        if evento.type == pg.KEYDOWN:
+            if evento.key == pg.K_1:
+                pos_x, pos_y = cuadrado_seleccionado
+                pantalla.blit(numero1_redi, (pos_x , pos_y ))
+                
+    
+        
     pg.display.flip()
 
 """
