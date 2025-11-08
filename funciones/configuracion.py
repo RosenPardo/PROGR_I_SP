@@ -21,7 +21,9 @@ pos_x = 52
 pos_y = 52
 ancho = 70
 alto = 70
-color = (235, 235, 235)
+COLOR_BLANCO = (235, 235, 235)
+COLOR_NEGRO = (0, 0, 0)
+COLOR_GRIS = (200, 200, 200)
 espaciado = 72
 espaciado_extra = 2
 
@@ -29,24 +31,24 @@ def rectangulo(pantalla, color, pos_x, pos_y, ancho, alto):
     pg.draw.rect(pantalla, color, (pos_x, pos_y, ancho, alto))
 
 def dibujar_grilla(pantalla):
-    rectangulo(pantalla, color = (000, 000, 000), pos_x=52, pos_y= 52, ancho = 645, alto = 645)
-    rectangulo(pantalla, color = (200, 200, 200), pos_x=52, pos_y= 52, ancho = 214, alto = 214)
-    rectangulo(pantalla, color = (200, 200, 200), pos_x=268, pos_y= 52, ancho = 214, alto = 214)
-    rectangulo(pantalla, color = (200, 200, 200), pos_x=484, pos_y= 52, ancho = 214, alto = 214)
+    rectangulo(pantalla, COLOR_NEGRO, pos_x=52, pos_y= 52, ancho = 645, alto = 645)
+    rectangulo(pantalla, COLOR_GRIS, pos_x=52, pos_y= 52, ancho = 214, alto = 214)
+    rectangulo(pantalla, COLOR_GRIS, pos_x=268, pos_y= 52, ancho = 214, alto = 214)
+    rectangulo(pantalla, COLOR_GRIS, pos_x=484, pos_y= 52, ancho = 214, alto = 214)
 
-    rectangulo(pantalla, color = (200, 200, 200), pos_x=52, pos_y= 268, ancho = 214, alto = 214)
-    rectangulo(pantalla, color = (200, 200, 200), pos_x=268, pos_y= 268, ancho = 214, alto = 214)
-    rectangulo(pantalla, color = (200, 200, 200), pos_x=484, pos_y= 268, ancho = 214, alto = 214)
+    rectangulo(pantalla, COLOR_GRIS, pos_x=52, pos_y= 268, ancho = 214, alto = 214)
+    rectangulo(pantalla, COLOR_GRIS, pos_x=268, pos_y= 268, ancho = 214, alto = 214)
+    rectangulo(pantalla, COLOR_GRIS, pos_x=484, pos_y= 268, ancho = 214, alto = 214)
 
-    rectangulo(pantalla, color = (200, 200, 200), pos_x=52, pos_y= 484, ancho = 214, alto = 214)
-    rectangulo(pantalla, color = (200, 200, 200), pos_x=268, pos_y= 484, ancho = 214, alto = 214)
-    rectangulo(pantalla, color = (200, 200, 200), pos_x=484, pos_y= 484, ancho = 214, alto = 214)
+    rectangulo(pantalla, COLOR_GRIS, pos_x=52, pos_y= 484, ancho = 214, alto = 214)
+    rectangulo(pantalla, COLOR_GRIS, pos_x=268, pos_y= 484, ancho = 214, alto = 214)
+    rectangulo(pantalla, COLOR_GRIS, pos_x=484, pos_y= 484, ancho = 214, alto = 214)
 
     for fila in range(9):
         for columna in range(9):
             x = pos_x + columna * espaciado
             y = pos_y + fila * espaciado
-            rectangulo(pantalla, color, x, y, ancho, alto)
+            rectangulo(pantalla, COLOR_BLANCO, x, y, ancho, alto)
 
 """Código DeepSeek:
 import pygame as pg

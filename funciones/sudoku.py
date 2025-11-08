@@ -85,3 +85,5 @@ if __name__ == "__main__":
 
     print("Sudoku con vacios")
     imprimir_tablero(incompleto)
+
+
