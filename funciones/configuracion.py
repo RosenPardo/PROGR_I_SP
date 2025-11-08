@@ -19,7 +19,7 @@ columnas_rangos = [(52, 122), (124, 194), (196, 266), (268, 338), (340, 410), (4
 filas_rangos = columnas_rangos
 
 
-numero1 = pg.image.load("C:/Users/juanchoneitor/Desktop/pygame/PROGR_I_SP/img/numeros_renderizados/numero_1_render.png")
+numero1 = pg.image.load("./img/numeros_renderizados/numero_1_render.png")
 
 numero1_redi = pg.transform.scale(numero1,(70,70))
 
@@ -27,9 +27,7 @@ numero1_redi = pg.transform.scale(numero1,(70,70))
 def iniciar_juego():
     pg.init()
 
-    #icono = pg.image.load("D:/UTN/Programacion_I_312/Pygame/img/icono.png")  #RUTA DE ICONO: COMPU ROSEN
-    icono = pg.image.load("C:/Users/juanchoneitor/Desktop/pygame/PROGR_I_SP/img/icono.png") #RUTA DE ICONO: COMPU JUANCHI
-    #icono = pg.image.load("JESSICAAA, TU URL ACÁ") #RUTA DE ICONO: COMPU VALE
+    icono = pg.image.load("./img/icono.png")  #RUTA DE ICONO: COMPU ROSEN
     
     
     pg.display.set_icon(icono)

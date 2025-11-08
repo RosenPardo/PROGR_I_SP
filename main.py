@@ -20,14 +20,15 @@ while True:
             cuadrado_seleccionado = celda_seleccionada(evento, columnas_rangos, filas_rangos, pantalla)
             print(evento.pos)
 
-# cuando clikeas fuera de la grilla y apretas 1 rompe  
         
         
         if evento.type == pg.KEYDOWN:
             if evento.key == pg.K_1:
-                pos_x, pos_y = cuadrado_seleccionado
-                pantalla.blit(numero1_redi, (pos_x , pos_y ))
-                
+                try:
+                    pos_x, pos_y = cuadrado_seleccionado
+                    pantalla.blit(numero1_redi, (pos_x , pos_y ))
+                except:
+                    pass
     
         
     pg.display.flip()
