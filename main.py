@@ -1,4 +1,3 @@
-import random
 import pygame as pg
 from funciones.configuracion import *
 from funciones.sudoku import *
@@ -9,9 +8,10 @@ pantalla = iniciar_juego()
 dibujar_grilla(pantalla)
 
 while True:
-    botones.create_button(pantalla, 703, 53, 240, 52, "verificar", action=None)
-    botones.create_button(pantalla, 703, 115, 240, 52, "reiniciar", action=None)
-    botones.create_button(pantalla, 703, 177, 240, 52, "volver", action=None)
+    botones.crear_boton(pantalla, 703, 53, 240, 52, "verificar", None)
+    botones.crear_boton(pantalla, 703, 115, 240, 52, "reiniciar", None)
+    botones.crear_boton(pantalla, 703, 177, 240, 52, "volver", None)
+
     for evento in pg.event.get():
         if evento.type == pg.QUIT:
             pg.quit()
