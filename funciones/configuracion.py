@@ -7,21 +7,26 @@ alto = 70
 COLOR_BLANCO = (235, 235, 235)
 COLOR_NEGRO = (0, 0, 0)
 COLOR_GRIS = (200, 200, 200)
-COLOR_AMARILLO = (255, 203, 99)
+COLOR_AMARILLO = (255, 230, 133)
 espaciado = 72
 espaciado_extra = 2
 columnas_rangos = [(52, 122), (124, 194), (196, 266), (268, 338), (340, 410), (412, 482), (484, 554), (556, 626), (628, 698)]
-filas_rangos = [(52, 122), (124, 194), (196, 266), (268, 338), (340, 410), (412, 482), (484, 554), (556, 626), (628, 698)]
+filas_rangos = columnas_rangos
 
 
 def iniciar_juego():
     pg.init()
 
-    # icono = pg.image.load("D:/UTN/Programacion_I_312/Pygame/img/icono.png")
+    icono = pg.image.load("D:/UTN/Programacion_I_312/Pygame/img/icono.png")  #RUTA DE ICONO: COMPU ROSEN
+    #icono = pg.image.load("JUNCITO, PONÉ TU URL") #RUTA DE ICONO: COMPU JUANCHI
+    #icono = pg.image.load("JESSICAAA, TU URL ACÁ") #RUTA DE ICONO: COMPU VALE
+    
+    
+    pg.display.set_icon(icono)
+    
     titulo = "SUDOKU UTN FRA"
     dimension_pantalla = (750, 750)
 
-    # pg.display.set_icon(icono)
     pg.display.set_caption(titulo)
     pantalla = pg.display.set_mode(dimension_pantalla)
     pantalla.fill((77, 154, 163))
@@ -60,7 +65,7 @@ def celda_seleccionada(evento, columnas_rangos, filas_rangos, pantalla):
                             inicio_y, fin_y = filas_rangos[fila]
                             if inicio_y <= y <= fin_y:
                                 dibujar_grilla(pantalla)
-                                rectangulo(pantalla, COLOR_AMARILLO, inicio_x, inicio_y, 70, 70)
+                                return rectangulo(pantalla, COLOR_AMARILLO, inicio_x, inicio_y, ancho, alto)
 
 
 """Código DeepSeek:
