@@ -2,6 +2,7 @@ import pygame as pg
 from funciones.configuracion import *
 from funciones.sudoku import *
 import funciones.botones as botones
+import funciones.numeros as numeros
 
 pantalla = iniciar_juego()
 
@@ -20,15 +21,36 @@ while True:
             cuadrado_seleccionado = celda_seleccionada(evento, columnas_rangos, filas_rangos, pantalla)
             print(evento.pos)
 
-        
-        
-        if evento.type == pg.KEYDOWN:
+        if evento.type == pg.KEYDOWN: 
             if evento.key == pg.K_1:
-                try:
-                    pos_x, pos_y = cuadrado_seleccionado
-                    pantalla.blit(numero1_redi, (pos_x , pos_y ))
-                except:
-                    pass
+                pos_x, pos_y = cuadrado_seleccionado
+                pantalla.blit(numeros.numero_1, (pos_x , pos_y ))
+            elif evento.key == pg.K_2:
+                pos_x, pos_y = cuadrado_seleccionado
+                pantalla.blit(numeros.numero_2, (pos_x , pos_y ))
+            elif evento.key == pg.K_3:
+                pos_x, pos_y = cuadrado_seleccionado
+                pantalla.blit(numeros.numero_3, (pos_x , pos_y ))
+            elif evento.key == pg.K_4:
+                pos_x, pos_y = cuadrado_seleccionado
+                pantalla.blit(numeros.numero_4, (pos_x , pos_y ))
+            elif evento.key == pg.K_5:
+                pos_x, pos_y = cuadrado_seleccionado
+                pantalla.blit(numeros.numero_5, (pos_x , pos_y ))
+            elif evento.key == pg.K_6: 
+                pos_x, pos_y = cuadrado_seleccionado
+                pantalla.blit(numeros.numero_6, (pos_x , pos_y ))      
+            elif evento.key == pg.K_7:
+                pos_x, pos_y = cuadrado_seleccionado
+                pantalla.blit(numeros.numero_7, (pos_x , pos_y ))
+            elif evento.key == pg.K_8:
+                pos_x, pos_y = cuadrado_seleccionado
+                pantalla.blit(numeros.numero_8, (pos_x , pos_y ))  
+            elif evento.key == pg.K_9:
+                pos_x, pos_y = cuadrado_seleccionado
+                pantalla.blit(numeros.numero_9, (pos_x , pos_y )) 
+        
+        
     
         
     pg.display.flip()

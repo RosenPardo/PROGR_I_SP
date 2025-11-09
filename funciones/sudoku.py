@@ -74,8 +74,25 @@ def imprimir_tablero(tablero):
         print(fila_str)
     print()
 
+
+
+# Generar un tablero completo y luego uno incompleto para uso externo
+tab_completo = generar_tablero_completo()
+tab_incompleto = crear_sudoku_incompleto_por_bloque(tab_completo, visibles_por_bloque=5)
+
+
+# dificultades predefinidas
+
+facil = crear_sudoku_incompleto_por_bloque(tab_completo, visibles_por_bloque=5)
+
+medio = crear_sudoku_incompleto_por_bloque(tab_completo, visibles_por_bloque=4)
+
+dificil = crear_sudoku_incompleto_por_bloque(tab_completo, visibles_por_bloque=3)
     
-    
+
+
+
+
 if __name__ == "__main__":
     completo = generar_tablero_completo()
     incompleto = crear_sudoku_incompleto_por_bloque(completo, visibles_por_bloque=5)

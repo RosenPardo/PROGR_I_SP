@@ -1,4 +1,8 @@
 import pygame as pg
+from funciones.sudoku import tab_incompleto, tab_completo, facil, medio, dificil
+
+import funciones.numeros as numeros 
+
 
 pos_x = 52
 pos_y = 52
@@ -13,10 +17,32 @@ espaciado_extra = 2
 columnas_rangos = [(52, 122), (124, 194), (196, 266), (268, 338), (340, 410), (412, 482), (484, 554), (556, 626), (628, 698)]
 filas_rangos = columnas_rangos
 
-
-numero1 = pg.image.load("./img/numeros_renderizados/numero_1_render.png")
-
-numero1_redi = pg.transform.scale(numero1,(70,70))
+def llenar_tablero(sudoku_incompleto,visor):
+    for fila in range(9):
+        for columna in range(9):
+            numero = sudoku_incompleto[fila][columna]
+            if numero != 0:
+                pos_x = 52 + columna * 72
+                pos_y = 52 + fila * 72
+                if numero == 1:
+                    visor.blit(numeros.numero_1, (pos_x , pos_y ))
+                elif numero == 2:
+                    visor.blit(numeros.numero_2, (pos_x , pos_y ))
+                elif numero == 3:
+                    visor.blit(numeros.numero_3, (pos_x , pos_y ))
+                elif numero == 4:
+                    visor.blit(numeros.numero_4, (pos_x , pos_y ))
+                elif numero == 5:
+                    visor.blit(numeros.numero_5, (pos_x , pos_y ))
+                elif numero == 6: 
+                    visor.blit(numeros.numero_6, (pos_x , pos_y ))      
+                elif numero == 7:
+                    visor.blit(numeros.numero_7, (pos_x , pos_y ))
+                elif numero == 8:
+                    visor.blit(numeros.numero_8, (pos_x , pos_y ))  
+                elif numero == 9:
+                    visor.blit(numeros.numero_9, (pos_x , pos_y ))
+    
 
 
 def iniciar_juego():
@@ -56,6 +82,13 @@ def dibujar_grilla(pantalla):
             x = pos_x + columna * espaciado
             y = pos_y + fila * espaciado
             rectangulo(pantalla, COLOR_BLANCO, x, y, ancho, alto)
+    
+    # dificultades pruebas
+
+    #llenar_tablero(tab_incompleto,pantalla)
+    #llenar_tablero(facil,pantalla)
+    llenar_tablero(medio,pantalla)
+    #llenar_tablero(dificil,pantalla)
 
 
 
