@@ -16,12 +16,7 @@ espaciado = 72
 espaciado_extra = 2
 columnas_rangos = [(52, 122), (124, 194), (196, 266), (268, 338), (340, 410), (412, 482), (484, 554), (556, 626), (628, 698)]
 filas_rangos = columnas_rangos
-
-
-# lista de celdas ocupadas
-
 celdas_ocupadas = []
-
 
 
 
@@ -70,7 +65,7 @@ def llenar_tablero(sudoku_incompleto,visor):
 # fondo de pantalla
 
 
-fondito = pg.image.load("C:/Users/juanchoneitor/Desktop/proyecto grupal/PROGR_I_SP/img/fondo.png")
+fondito = pg.image.load("./img/fondo.png")
 fondo = pg.transform.scale(fondito,(1002, 750))  
 
 

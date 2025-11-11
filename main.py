@@ -11,9 +11,9 @@ dibujar_grilla(pantalla)
 
 
 while True:
-    botones.crear_boton(pantalla, 703, 53, 240, 52, "verificar", None)
-    botones.crear_boton(pantalla, 703, 115, 240, 52, "reiniciar", None)
-    botones.crear_boton(pantalla, 703, 177, 240, 52, "volver", None)
+    botones.crear_boton(pantalla, 703, 53, 240, 52, "Verificar", None)
+    botones.crear_boton(pantalla, 703, 115, 240, 52, "Reiniciar", None)
+    botones.crear_boton(pantalla, 703, 177, 240, 52, "Volver", None)
 
     for evento in pg.event.get():
         if evento.type == pg.QUIT:
