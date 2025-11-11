@@ -17,13 +17,32 @@ espaciado_extra = 2
 columnas_rangos = [(52, 122), (124, 194), (196, 266), (268, 338), (340, 410), (412, 482), (484, 554), (556, 626), (628, 698)]
 filas_rangos = columnas_rangos
 
+
+# lista de celdas ocupadas
+
+celdas_ocupadas = []
+
+
+
+
+def contador(lista):
+    acumulador = 0
+    for i in range(len(lista)):
+        acumulador += 1
+    
+    return acumulador
+
+
 def llenar_tablero(sudoku_incompleto,visor):
     for fila in range(9):
+        
         for columna in range(9):
+            
             numero = sudoku_incompleto[fila][columna]
             if numero != 0:
                 pos_x = 52 + columna * 72
                 pos_y = 52 + fila * 72
+                celdas_ocupadas.append((pos_x, pos_y)) 
                 if numero == 1:
                     visor.blit(numeros.numero_1, (pos_x , pos_y ))
                 elif numero == 2:
@@ -42,7 +61,17 @@ def llenar_tablero(sudoku_incompleto,visor):
                     visor.blit(numeros.numero_8, (pos_x , pos_y ))  
                 elif numero == 9:
                     visor.blit(numeros.numero_9, (pos_x , pos_y ))
-    
+
+    print(f"la cantidad de celdas ocupadas es :{contador(celdas_ocupadas)}")
+    print("Celdas ocupadas:")
+    print(celdas_ocupadas)  
+
+
+# fondo de pantalla
+
+
+fondito = pg.image.load("C:/Users/juanchoneitor/Desktop/proyecto grupal/PROGR_I_SP/img/fondo.png")
+fondo = pg.transform.scale(fondito,(1002, 750))  
 
 
 def iniciar_juego():
@@ -87,8 +116,8 @@ def dibujar_grilla(pantalla):
 
     #llenar_tablero(tab_incompleto,pantalla)
     #llenar_tablero(facil,pantalla)
-    llenar_tablero(medio,pantalla)
-    #llenar_tablero(dificil,pantalla)
+    #llenar_tablero(medio,pantalla)
+    llenar_tablero(dificil,pantalla)
 
 
 

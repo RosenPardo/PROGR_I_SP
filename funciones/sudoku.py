@@ -12,6 +12,7 @@ def generar_tablero_completo():
         tablero.append(fila)
     
     def es_valido(tablero, fila, columna, numero):
+            
             if numero in tablero[fila]:
                 return False
         

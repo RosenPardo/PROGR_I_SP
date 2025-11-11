@@ -6,7 +6,9 @@ import funciones.numeros as numeros
 
 pantalla = iniciar_juego()
 
+pantalla.blit(fondo, (0, 0))
 dibujar_grilla(pantalla)
+
 
 while True:
     botones.crear_boton(pantalla, 703, 53, 240, 52, "verificar", None)
