@@ -1,8 +1,6 @@
 import pygame as pg
 from funciones.sudoku import tab_incompleto, tab_completo, facil, medio, dificil
-
 import funciones.numeros as numeros 
-
 
 pos_x = 52
 pos_y = 52
@@ -14,15 +12,31 @@ COLOR_GRIS = (200, 200, 200)
 COLOR_AMARILLO = (255, 230, 133)
 espaciado = 72
 espaciado_extra = 2
-columnas_rangos = [(52, 122), (124, 194), (196, 266), (268, 338), (340, 410), (412, 482), (484, 554), (556, 626), (628, 698)]
-filas_rangos = columnas_rangos
 celdas_ocupadas = []
+fondito = pg.image.load("./img/fondo.png")
+fondo = pg.transform.scale(fondito,(1002, 750))  
+
+def coordenadas_celdas(pos_inicial, ancho_celda, espaciado_celdas, cantidad):
+    rangos = []
+    actual = pos_inicial
+    
+    for _ in range(cantidad):
+        inicio = actual
+        fin = actual + ancho_celda
+        rangos.append((inicio, fin))
+        actual = fin + espaciado_celdas
+    
+    return rangos
+
+columnas_rangos = coordenadas_celdas(pos_x, ancho, espaciado_extra, 9)
+filas_rangos = coordenadas_celdas(pos_y, alto, espaciado_extra, 9)
+
 
 
 
 def contador(lista):
     acumulador = 0
-    for i in range(len(lista)):
+    for _ in range(len(lista)):
         acumulador += 1
     
     return acumulador
@@ -62,11 +76,6 @@ def llenar_tablero(sudoku_incompleto,visor):
     # print(celdas_ocupadas)  
 
 
-# fondo de pantalla
-
-
-fondito = pg.image.load("./img/fondo.png")
-fondo = pg.transform.scale(fondito,(1002, 750))  
 
 
 def iniciar_juego():
@@ -88,18 +97,17 @@ def rectangulo(pantalla, color, pos_x, pos_y, ancho, alto):
     pg.draw.rect(pantalla, color, (pos_x, pos_y, ancho, alto))
 
 def dibujar_grilla(pantalla):
-    rectangulo(pantalla, COLOR_NEGRO, pos_x = 52, pos_y= 52, ancho = 645, alto = 645)
-    rectangulo(pantalla, COLOR_GRIS, pos_x = 52, pos_y= 52, ancho = 214, alto = 214)
-    rectangulo(pantalla, COLOR_GRIS, pos_x = 268, pos_y= 52, ancho = 214, alto = 214)
-    rectangulo(pantalla, COLOR_GRIS, pos_x = 484, pos_y= 52, ancho = 214, alto = 214)
+    rectangulo(pantalla, COLOR_NEGRO, pos_x, pos_y, ancho = 645, alto = 645)
+    
+    x = pos_x
+    y = pos_y
 
-    rectangulo(pantalla, COLOR_GRIS, pos_x = 52, pos_y= 268, ancho = 214, alto = 214)
-    rectangulo(pantalla, COLOR_GRIS, pos_x = 268, pos_y= 268, ancho = 214, alto = 214)
-    rectangulo(pantalla, COLOR_GRIS, pos_x = 484, pos_y= 268, ancho = 214, alto = 214)
-
-    rectangulo(pantalla, COLOR_GRIS, pos_x = 52, pos_y= 484, ancho = 214, alto = 214)
-    rectangulo(pantalla, COLOR_GRIS, pos_x = 268, pos_y= 484, ancho = 214, alto = 214)
-    rectangulo(pantalla, COLOR_GRIS, pos_x = 484, pos_y= 484, ancho = 214, alto = 214)
+    for fila in range(3):
+        for columna in range(3): 
+            rectangulo(pantalla, COLOR_GRIS, x, y, ancho = 214, alto = 214)
+            x += 216
+        y += 216
+        x = pos_x
 
     for fila in range(9):
         for columna in range(9): 
@@ -107,14 +115,6 @@ def dibujar_grilla(pantalla):
             y = pos_y + fila * espaciado
             rectangulo(pantalla, COLOR_BLANCO, x, y, ancho, alto)
     
-    # dificultades pruebas
-
-    #llenar_tablero(tab_incompleto,pantalla)
-    #llenar_tablero(facil,pantalla)
-    #llenar_tablero(medio,pantalla)
-    llenar_tablero(dificil,pantalla)
-
-
 
 def celda_seleccionada(evento, columnas_rangos, filas_rangos, pantalla):
                 x, y = evento.pos

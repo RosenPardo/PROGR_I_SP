@@ -17,7 +17,7 @@ def crear_boton(pantalla, x, y, ancho, alto, texto, accion=None):
     if boton_rect.collidepoint(mouse):
         pg.draw.rect(pantalla, GRIS_OSCURO, boton_rect)
         if clic[0] == 1 and accion is not None:
-            accion()
+            accion
     else:
         pg.draw.rect(pantalla, GRIS, boton_rect)
     
