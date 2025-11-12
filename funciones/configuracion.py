@@ -57,9 +57,9 @@ def llenar_tablero(sudoku_incompleto,visor):
                 elif numero == 9:
                     visor.blit(numeros.numero_9, (pos_x , pos_y ))
 
-    print(f"la cantidad de celdas ocupadas es :{contador(celdas_ocupadas)}")
-    print("Celdas ocupadas:")
-    print(celdas_ocupadas)  
+    # print(f"la cantidad de celdas ocupadas es :{contador(celdas_ocupadas)}")
+    # print("Celdas ocupadas:")
+    # print(celdas_ocupadas)  
 
 
 # fondo de pantalla
