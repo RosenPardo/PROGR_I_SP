@@ -42,34 +42,32 @@ def contador(lista):
     return acumulador
 
 
-def llenar_tablero(sudoku_incompleto,visor):
-    for fila in range(9):
-        
-        for columna in range(9):
-            
-            numero = sudoku_incompleto[fila][columna]
+def llenar_tablero(sudoku_incompleto, visor):
+    CELL = 72
+    OFFSET = 52
+
+    # numeros de sudoku
+    numero_imagenes = {
+        1: numeros.numero_1,
+        2: numeros.numero_2,
+        3: numeros.numero_3,
+        4: numeros.numero_4,
+        5: numeros.numero_5,
+        6: numeros.numero_6,
+        7: numeros.numero_7,
+        8: numeros.numero_8,
+        9: numeros.numero_9,
+    }
+
+    for posicion_fila in range(9):
+        fila = sudoku_incompleto[posicion_fila]
+        for posicion_columna in range(9):
+            numero = fila[posicion_columna]
             if numero != 0:
-                pos_x = 52 + columna * 72
-                pos_y = 52 + fila * 72
-                celdas_ocupadas.append((pos_x, pos_y)) 
-                if numero == 1:
-                    visor.blit(numeros.numero_1, (pos_x , pos_y ))
-                elif numero == 2:
-                    visor.blit(numeros.numero_2, (pos_x , pos_y ))
-                elif numero == 3:
-                    visor.blit(numeros.numero_3, (pos_x , pos_y ))
-                elif numero == 4:
-                    visor.blit(numeros.numero_4, (pos_x , pos_y ))
-                elif numero == 5:
-                    visor.blit(numeros.numero_5, (pos_x , pos_y ))
-                elif numero == 6: 
-                    visor.blit(numeros.numero_6, (pos_x , pos_y ))      
-                elif numero == 7:
-                    visor.blit(numeros.numero_7, (pos_x , pos_y ))
-                elif numero == 8:
-                    visor.blit(numeros.numero_8, (pos_x , pos_y ))  
-                elif numero == 9:
-                    visor.blit(numeros.numero_9, (pos_x , pos_y ))
+                x = OFFSET + posicion_columna * CELL
+                y = OFFSET + posicion_fila * CELL
+                celdas_ocupadas.append((x, y))
+                visor.blit(numero_imagenes[numero], (x, y))
 
     # print(f"la cantidad de celdas ocupadas es :{contador(celdas_ocupadas)}")
     # print("Celdas ocupadas:")
