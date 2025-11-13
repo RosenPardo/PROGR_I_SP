@@ -5,7 +5,12 @@ import funciones.botones as botones
 from funciones.numeros import *
 from funciones.teclas import *
 
-print(tab_incompleto)
+# print(tab_incompleto)
+
+puntaje = 0            # score actual
+regiones_completas = set()  # para no sumar +9 dos veces por la misma región
+juego_terminado = False     # para bloquear inputs cuando gana
+
 pantalla = iniciar_juego()
 
 pantalla.blit(fondo, (0, 0))
@@ -37,8 +42,19 @@ def pos_a_indices(pos_x, pos_y):
             break
 
     return fila, col
-  
+
+fuente_puntaje = pg.font.Font(None, 40)
+
+def mostrar_puntaje():
+    # Score con 4 dígitos, puede ser negativo?
+    texto = f"Score: {puntaje:04d}"
+    render = fuente_puntaje.render(texto, True, (0, 0, 0))
+    # Posición libre al costado derecho, debajo de los botones
+    pantalla.blit(render, (703, 250))
+    
 def verificar_tablero():
+    global puntaje, regiones_completas, juego_terminado
+
     # Compara tab_usuario contra la solución tab_completo
     errores = []
     vacias = 0
@@ -53,29 +69,73 @@ def verificar_tablero():
             elif usuario != sudoku_completo:
                 errores.append((fila, columna, usuario, sudoku_completo))
 
-    if not errores and vacias == 0:
-        print("Sudoku correcto: todo coincide.")
-        return
+    # PUNTOS POR ERRORES: -1 por casillero incorrecto
+    puntaje -= len(errores)
 
+    # PUNTOS POR REGIÓN COMPLETA: +9 por cada bloque 3x3 correcto (solo una vez)
+    for start_fila in (0, 3, 6):
+        for start_columna in (0, 3, 6):
+            id_region = (start_fila // 3, start_columna // 3)
+            if id_region in regiones_completas:
+                continue  # ya se contó antes
+
+            region_ok = True
+            for i in range(start_fila, start_fila + 3):
+                for j in range(start_columna, start_columna + 3):
+                    if tab_usuario[i][j] != tab_completo[i][j]:
+                        region_ok = False
+                        break
+                if not region_ok:
+                    break
+
+            if region_ok:
+                puntaje += 9
+                regiones_completas.add(id_region)
+
+    if not errores and vacias == 0:
+        # Tablero completo y correcto: +81 una vez
+        if not juego_terminado:
+            puntaje += 81
+            juego_terminado = True
+            print("Sudoku correcto: ¡ganaste!")
+
+    # Mensajes por consola
     if errores:
         print(f"Encontré {len(errores)} error(es):")
         for fila, columna, usuario, sudoku_completo in errores:
-            # donde está el error
             print(f"  - Celda (fila {fila+1}, col {columna+1}): pusiste {usuario}, debería ser {sudoku_completo}")
+    else:
+        if vacias > 0:
+            print(f"No hay errores, pero quedan {vacias} celdas vacías.")
+        else:
+            print("Sudoku correcto (sin errores).")
+
+    # Redibujar el fondo / grilla / tablero y el puntaje
+    pantalla.blit(fondo, (0, 0))
+    dibujar_grilla(pantalla)
+    llenar_tablero(dificil, pantalla)
+    mostrar_puntaje()
+
 
 
 def reiniciar_tablero():
-    global tab_usuario, cuadrado_seleccionado
+    global tab_usuario, cuadrado_seleccionado, puntaje, regiones_completas, juego_terminado
     # Reset lógico: volver a los valores iniciales del tablero
     tab_usuario = [fila[:] for fila in dificil]
     cuadrado_seleccionado = None
+
+    puntaje = 0
+    regiones_completas = set()
+    juego_terminado = False
 
     # Reset visual
     pantalla.blit(fondo, (0, 0))
     dibujar_grilla(pantalla)
     llenar_tablero(dificil, pantalla)
+    mostrar_puntaje()
 
-    print("✔️ Sudoku reiniciado")
+    print("Sudoku reiniciado")
+
 
 
 
@@ -107,7 +167,7 @@ while True:
             except:
                 pass
         
-        
+    mostrar_puntaje()   
     pg.display.flip()
 
 
