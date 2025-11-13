@@ -113,7 +113,7 @@ def verificar_tablero():
     # Redibujar el fondo / grilla / tablero y el puntaje
     pantalla.blit(fondo, (0, 0))
     dibujar_grilla(pantalla)
-    llenar_tablero(dificil, pantalla)
+    llenar_tablero(tab_usuario, pantalla)
     mostrar_puntaje()
 
 
@@ -131,7 +131,7 @@ def reiniciar_tablero():
     # Reset visual
     pantalla.blit(fondo, (0, 0))
     dibujar_grilla(pantalla)
-    llenar_tablero(dificil, pantalla)
+    llenar_tablero(tab_usuario, pantalla)
     mostrar_puntaje()
 
     print("Sudoku reiniciado")
@@ -152,7 +152,7 @@ while True:
             
         elif evento.type == pg.MOUSEBUTTONDOWN:
             cuadrado_seleccionado = celda_seleccionada(evento, columnas_rangos, filas_rangos, pantalla)
-            llenar_tablero(dificil,pantalla)
+            llenar_tablero(tab_usuario, pantalla)
             
         if evento.type == pg.KEYDOWN: 
             try:
@@ -163,7 +163,7 @@ while True:
                     fila, columna = pos_a_indices(pos_x, pos_y)
                     tab_usuario[fila][columna] = numero_ingresado
                     
-                llenar_tablero(dificil,pantalla)
+                llenar_tablero(tab_usuario, pantalla)
             except:
                 pass
         
