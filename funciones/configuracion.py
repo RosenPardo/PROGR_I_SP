@@ -2,6 +2,9 @@ import pygame as pg
 from funciones.sudoku import tab_incompleto, tab_completo, facil, medio, dificil
 import funciones.numeros as numeros 
 
+pg.init()
+
+
 pos_x = 52
 pos_y = 52
 ancho = 70
@@ -15,6 +18,24 @@ espaciado_extra = 2
 celdas_ocupadas = []
 fondito = pg.image.load("./img/fondo.png")
 fondo = pg.transform.scale(fondito,(1002, 750))  
+
+
+
+def reproducir_musica_loop(ruta_mp3,volumen):
+    """
+    Función para reproducir MP3 en loop infinito
+    """
+    try:
+        pg.mixer.init()
+        pg.mixer.music.load(ruta_mp3)
+        pg.mixer.music.set_volume(volumen)  
+        pg.mixer.music.play(-1)
+        return True
+    except:
+        return False
+
+
+
 
 def coordenadas_celdas(pos_inicial, ancho_celda, espaciado_celdas, cantidad):
     rangos = []
@@ -30,6 +51,8 @@ def coordenadas_celdas(pos_inicial, ancho_celda, espaciado_celdas, cantidad):
 
 columnas_rangos = coordenadas_celdas(pos_x, ancho, espaciado_extra, 9)
 filas_rangos = coordenadas_celdas(pos_y, alto, espaciado_extra, 9)
+
+
 
 
 
@@ -124,5 +147,7 @@ def celda_seleccionada(evento, columnas_rangos, filas_rangos, pantalla):
                             if inicio_y <= y <= fin_y:
                                 dibujar_grilla(pantalla)
                                 rectangulo(pantalla, COLOR_AMARILLO, inicio_x, inicio_y, ancho, alto)
+                                #botones.sonido_celda_seleccionada()
+                             
                                 return inicio_x, inicio_y
 

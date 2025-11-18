@@ -5,6 +5,14 @@ import funciones.botones as botones
 from funciones.numeros import *
 from funciones.teclas import *
 
+pg.init()   
+
+volumen_musica = 0.5 
+
+
+
+
+
 # print(tab_incompleto)
 
 puntaje = 0            # score actual
@@ -14,6 +22,7 @@ juego_terminado = False     # para bloquear inputs cuando gana
 pantalla = iniciar_juego()
 
 pantalla.blit(fondo, (0, 0))
+reproducir_musica_loop("C:/Users/juanchoneitor/Desktop/proyecto grupal/PROGR_I_SP/sonidos/musica_fondo.mp3", volumen_musica)
 dibujar_grilla(pantalla)
 # dificultades pruebas
 #llenar_tablero(tab_incompleto,pantalla)
@@ -67,10 +76,15 @@ def verificar_tablero():
             if usuario == 0:
                 vacias += 1
             elif usuario != sudoku_completo:
+
+                
                 errores.append((fila, columna, usuario, sudoku_completo))
 
     # PUNTOS POR ERRORES: -1 por casillero incorrecto
     puntaje -= len(errores)
+    
+    if len(errores) > 0:
+        botones.sonido_error()    
 
     # PUNTOS POR REGIÓN COMPLETA: +9 por cada bloque 3x3 correcto (solo una vez)
     for start_fila in (0, 3, 6):
@@ -137,12 +151,31 @@ def reiniciar_tablero():
     print("Sudoku reiniciado")
 
 
+def mutear():
+    global volumen_musica
+    volumen_musica = 0.0
+    pg.mixer.music.set_volume(volumen_musica)  
+
+
+def desmutear():
+    global volumen_musica
+    volumen_musica = 0.5
+    pg.mixer.music.set_volume(volumen_musica)  
+
+
 
 
 while True:
+    
     botones.crear_boton(pantalla, 703, 53, 240, 52, "Verificar", verificar_tablero)
     botones.crear_boton(pantalla, 703, 115, 240, 52, "Reiniciar", reiniciar_tablero)
     botones.crear_boton(pantalla, 703, 177, 240, 52, "Volver", None)
+    
+   
+
+    botones.crear_boton(pantalla, 850, 500, 140, 50, "Desmutear", desmutear)
+    botones.crear_boton(pantalla, 740, 500, 100, 50, "Mutear", mutear)
+
 
     for evento in pg.event.get():
         
@@ -160,6 +193,7 @@ while True:
                 numero_ingresado = valores_teclas(pantalla, evento, pos_x, pos_y)
                 
                 if numero_ingresado in (1,2,3,4,5,6,7,8,9):
+                    botones.sonido_numero_ingresado()
                     fila, columna = pos_a_indices(pos_x, pos_y)
                     tab_usuario[fila][columna] = numero_ingresado
                     
