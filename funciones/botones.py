@@ -16,7 +16,7 @@ def reproducir_sonido(ruta_sonido, volumen):
         sonido = pg.mixer.Sound(ruta_sonido)
         sonido.set_volume(volumen)  
         sonido.play(0)
-        #pg.mixer.music.play(loops=1)
+        pg.mixer.music.play(loops=1)
         return True
     except:
         return False   
@@ -53,11 +53,11 @@ def crear_boton(pantalla, x, y, ancho, alto, texto, accion=None):
     
 
     if boton_rect.collidepoint(mouse):
-       
+        
         reproducir_sonido("./sonidos/pop.mp3",0.3 )
         bandera = False
-       
-       
+
+
         pg.draw.rect(pantalla, (250,100,0), boton_rect)
         
         if clic[0] == 1 and accion is not None:

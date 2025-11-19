@@ -32,29 +32,29 @@ llenar_tablero(dificil, pantalla)
 tab_usuario = [fila[:] for fila in dificil]
 
 
-def pos_a_indices(pos_x: int, pos_y:int, lista_columna_rangos: list = columnas_rangos, lista_fila_rangos: list = filas_rangos) -> tuple:
+def pos_a_indices(pos_x: int, pos_y:int, columnas_rangos: list, filas_rangos: list) -> tuple:
     """
     Función que convierte las coordenadas del mouse en índices de fila y columna de la grilla SUDOKU.
 
     Args:
         pos_x (int): Coordenada X del mouse en la grilla SUDOKU.
         pos_y (int): Coordenada Y del mouse en la grilla SUDOKU.
-        lista_columna_rangos (list, optional): Lista con coordenadas de celdas en columnas. Defaults: columnas_rangos.
-        lista_fila_rangos (list, optional): Lista con coordenadas de celdas en filas. Defaults: filas_rangos.
+        columnas_rangos (list, optional): Lista con coordenadas de celdas en columnas. Defaults: columnas_rangos.
+        filas_rangos (list, optional): Lista con coordenadas de celdas en filas. Defaults: filas_rangos.
 
     Returns:
         tuple[int | None, int | None]: Tupla con (fila, columna) donde cada elemento es el índice correspondiente, o None si no se encuentra coincidencia exacta. 
     """
     col = None
-    for i in range(len(lista_columna_rangos)):
-        sx, ex = lista_columna_rangos[i]
+    for i in range(len(columnas_rangos)):
+        sx, ex = columnas_rangos[i]
         if sx == pos_x:
             col = i
             break
 
     fila = None
-    for j in range(len(lista_fila_rangos)):
-        sy, ey = lista_fila_rangos[j]
+    for j in range(len(filas_rangos)):
+        sy, ey = filas_rangos[j]
         if sy == pos_y:
             fila = j
             break
@@ -63,17 +63,18 @@ def pos_a_indices(pos_x: int, pos_y:int, lista_columna_rangos: list = columnas_r
 
 fuente_puntaje = pg.font.Font(None, 40)
 
-def mostrar_puntaje():
+def mostrar_puntaje() -> None:
+    """
+    Función que muestra el puntaje en pantalla.
+    """
     
-    # Score con 4 dígitos, puede ser negativo?
     texto = f"Score: {puntaje:04d}"
     render = fuente_puntaje.render(texto, True, (0, 0, 0))
-    # Posición libre al costado derecho, debajo de los botones
 
-    rectangulo(pantalla, "orange", 745, 248, 170, 30)
+    rectangulo(pantalla, "orange", 293, 8, 170, 30)
 
-    pantalla.blit(render, (750, 250))  # posicion donde se muestra el puntaje
-    
+    pantalla.blit(render, (298, 10)) 
+
 def verificar_tablero():
     global puntaje, regiones_completas, juego_terminado
 
@@ -208,7 +209,7 @@ while True:
                 
                 if numero_ingresado in (1,2,3,4,5,6,7,8,9):
                     botones.sonido_numero_ingresado()
-                    fila, columna = pos_a_indices(pos_x, pos_y)
+                    fila, columna = pos_a_indices(pos_x, pos_y, columnas_rangos, filas_rangos)
                     tab_usuario[fila][columna] = numero_ingresado
                     
                 llenar_tablero(tab_usuario, pantalla)
