@@ -147,7 +147,8 @@ def celda_seleccionada(evento, columnas_rangos, filas_rangos, pantalla):
                             if inicio_y <= y <= fin_y:
                                 dibujar_grilla(pantalla)
                                 rectangulo(pantalla, COLOR_AMARILLO, inicio_x, inicio_y, ancho, alto)
-                               
+                                
+                                #botones.sonido_celda_seleccionada()
                                 
                                 return inicio_x, inicio_y
 

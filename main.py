@@ -9,12 +9,6 @@ pg.init()
 
 volumen_musica = 0.5 
 
-
-
-
-
-# print(tab_incompleto)
-
 puntaje = 0            # score actual
 regiones_completas = set()  # para no sumar +9 dos veces por la misma región
 juego_terminado = False     # para bloquear inputs cuando gana
@@ -26,6 +20,7 @@ pantalla.blit(fondo, (0, 0))
 reproducir_musica_loop("./sonidos/musica_fondo.mp3", volumen_musica)
 
 dibujar_grilla(pantalla)
+
 # dificultades pruebas
 #llenar_tablero(tab_incompleto,pantalla)
 #llenar_tablero(facil,pantalla)
@@ -36,18 +31,30 @@ llenar_tablero(dificil, pantalla)
 # tab_usuario = [fila[:] for fila in tab_incompleto]
 tab_usuario = [fila[:] for fila in dificil]
 
-def pos_a_indices(pos_x, pos_y):
-    # Buscar por igualdad exacta del inicio de celda
+
+def pos_a_indices(pos_x: int, pos_y:int, lista_columna_rangos: list = columnas_rangos, lista_fila_rangos: list = filas_rangos) -> tuple:
+    """
+    Función que convierte las coordenadas del mouse en índices de fila y columna de la grilla SUDOKU.
+
+    Args:
+        pos_x (int): Coordenada X del mouse en la grilla SUDOKU.
+        pos_y (int): Coordenada Y del mouse en la grilla SUDOKU.
+        lista_columna_rangos (list, optional): Lista con coordenadas de celdas en columnas. Defaults: columnas_rangos.
+        lista_fila_rangos (list, optional): Lista con coordenadas de celdas en filas. Defaults: filas_rangos.
+
+    Returns:
+        tuple[int | None, int | None]: Tupla con (fila, columna) donde cada elemento es el índice correspondiente, o None si no se encuentra coincidencia exacta. 
+    """
     col = None
-    for i in range(len(columnas_rangos)):
-        sx, ex = columnas_rangos[i]
+    for i in range(len(lista_columna_rangos)):
+        sx, ex = lista_columna_rangos[i]
         if sx == pos_x:
             col = i
             break
 
     fila = None
-    for j in range(len(filas_rangos)):
-        sy, ey = filas_rangos[j]
+    for j in range(len(lista_fila_rangos)):
+        sy, ey = lista_fila_rangos[j]
         if sy == pos_y:
             fila = j
             break
@@ -57,6 +64,7 @@ def pos_a_indices(pos_x, pos_y):
 fuente_puntaje = pg.font.Font(None, 40)
 
 def mostrar_puntaje():
+    
     # Score con 4 dígitos, puede ser negativo?
     texto = f"Score: {puntaje:04d}"
     render = fuente_puntaje.render(texto, True, (0, 0, 0))
@@ -176,7 +184,7 @@ while True:
     botones.crear_boton(pantalla, 703, 115, 240, 52, "REINICIAR", reiniciar_tablero)
     botones.crear_boton(pantalla, 703, 177, 240, 52, "VOLVER", None)
     
-   
+    
 
     botones.crear_boton(pantalla, 800, 700, 160, 50, "DESMUTEAR", desmutear)
     botones.crear_boton(pantalla, 680, 700, 120, 50, "MUTEAR", mutear)
