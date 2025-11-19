@@ -2,6 +2,7 @@ import pygame as pg
 from funciones.configuracion import reproducir_musica_loop
 pg.init()
 
+bandera = True
 
 GRIS = (200, 200, 200)
 GRIS_OSCURO = (100, 100, 100) 
@@ -14,24 +15,26 @@ def reproducir_sonido(ruta_sonido, volumen):
     try:
         sonido = pg.mixer.Sound(ruta_sonido)
         sonido.set_volume(volumen)  
-        sonido.play()
+        sonido.play(0)
+        #pg.mixer.music.play(loops=1)
         return True
     except:
         return False   
 
 
 def sonido_numero_ingresado():
-    reproducir_sonido("C:/Users/juanchoneitor/Desktop/proyecto grupal/PROGR_I_SP/sonidos/numero_ingresado.mp3", 0.2)
+    reproducir_sonido("./sonidos/numero_ingresado.mp3", 0.2)
+
 
 def sonido_celda_seleccionada():
-    reproducir_sonido("C:/Users/juanchoneitor/Desktop/proyecto grupal/PROGR_I_SP/sonidos/celda_marcada.mp3", 0.2)
+    reproducir_sonido("./sonidos/celda_marcada.mp3", 0.2)
 
 def sonido_error():
-    reproducir_sonido("C:/Users/juanchoneitor/Desktop/proyecto grupal/PROGR_I_SP/sonidos/error.mp3", 0.3)
+    reproducir_sonido("./sonidos/error.mp3", 0.3)
 
 
 def sonido_acierto():
-    reproducir_sonido("C:/Users/juanchoneitor/Desktop/proyecto grupal/PROGR_I_SP/sonidos/acierto.mp3", 0.3)
+    reproducir_sonido("./sonidos/acierto.mp3", 0.3)
 
     
 
@@ -47,19 +50,34 @@ def crear_boton(pantalla, x, y, ancho, alto, texto, accion=None):
     
     boton_rect = pg.Rect(x, y, ancho, alto)
     
-    if boton_rect.collidepoint(mouse):
+    
 
-        pg.draw.rect(pantalla, GRIS_OSCURO, boton_rect)
+    if boton_rect.collidepoint(mouse):
+       
+        reproducir_sonido("./sonidos/pop.mp3",0.3 )
+        bandera = False
+       
+       
+        pg.draw.rect(pantalla, (250,100,0), boton_rect)
+        
         if clic[0] == 1 and accion is not None:
             pg.draw.rect(pantalla, GRIS_OSCURO, boton_rect)
-            reproducir_sonido("C:/Users/juanchoneitor/Desktop/proyecto grupal/PROGR_I_SP/sonidos/numero_ingresado.mp3",0.2)
+            reproducir_sonido("./sonidos/numero_ingresado.mp3",0.3)
             accion()
     else:
+        
         pg.draw.rect(pantalla, GRIS, boton_rect)
     
     # Dibujar borde y texto
-    pg.draw.rect(pantalla, NEGRO, boton_rect, 2)
+    pg.draw.rect(pantalla, NEGRO, boton_rect, 2) #color bordes
     fuente = pg.font.Font(None, 36)
-    texto_render = fuente.render(texto, True, NEGRO)
+    texto_render = fuente.render(texto, True, NEGRO) # color letras
     texto_objeto = texto_render.get_rect(center=boton_rect.center)
     pantalla.blit(texto_render, texto_objeto)
+
+
+
+
+
+
+    

@@ -22,7 +22,9 @@ juego_terminado = False     # para bloquear inputs cuando gana
 pantalla = iniciar_juego()
 
 pantalla.blit(fondo, (0, 0))
-reproducir_musica_loop("C:/Users/juanchoneitor/Desktop/proyecto grupal/PROGR_I_SP/sonidos/musica_fondo.mp3", volumen_musica)
+
+reproducir_musica_loop("./sonidos/musica_fondo.mp3", volumen_musica)
+
 dibujar_grilla(pantalla)
 # dificultades pruebas
 #llenar_tablero(tab_incompleto,pantalla)
@@ -59,7 +61,10 @@ def mostrar_puntaje():
     texto = f"Score: {puntaje:04d}"
     render = fuente_puntaje.render(texto, True, (0, 0, 0))
     # Posición libre al costado derecho, debajo de los botones
-    pantalla.blit(render, (703, 250))
+
+    rectangulo(pantalla, "orange", 745, 248, 170, 30)
+
+    pantalla.blit(render, (750, 250))  # posicion donde se muestra el puntaje
     
 def verificar_tablero():
     global puntaje, regiones_completas, juego_terminado
@@ -167,14 +172,14 @@ def desmutear():
 
 while True:
     
-    botones.crear_boton(pantalla, 703, 53, 240, 52, "Verificar", verificar_tablero)
-    botones.crear_boton(pantalla, 703, 115, 240, 52, "Reiniciar", reiniciar_tablero)
-    botones.crear_boton(pantalla, 703, 177, 240, 52, "Volver", None)
+    botones.crear_boton(pantalla, 703, 53, 240, 52, "VERIFICAR", verificar_tablero)
+    botones.crear_boton(pantalla, 703, 115, 240, 52, "REINICIAR", reiniciar_tablero)
+    botones.crear_boton(pantalla, 703, 177, 240, 52, "VOLVER", None)
     
    
 
-    botones.crear_boton(pantalla, 850, 500, 140, 50, "Desmutear", desmutear)
-    botones.crear_boton(pantalla, 740, 500, 100, 50, "Mutear", mutear)
+    botones.crear_boton(pantalla, 800, 700, 160, 50, "DESMUTEAR", desmutear)
+    botones.crear_boton(pantalla, 680, 700, 120, 50, "MUTEAR", mutear)
 
 
     for evento in pg.event.get():
@@ -185,6 +190,7 @@ while True:
             
         elif evento.type == pg.MOUSEBUTTONDOWN:
             cuadrado_seleccionado = celda_seleccionada(evento, columnas_rangos, filas_rangos, pantalla)
+            botones.reproducir_sonido("./sonidos/celda_marcada.mp3", 0.4)
             llenar_tablero(tab_usuario, pantalla)
             
         if evento.type == pg.KEYDOWN: 
