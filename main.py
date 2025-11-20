@@ -25,7 +25,25 @@ dibujar_grilla(pantalla)
 #llenar_tablero(tab_incompleto,pantalla)
 #llenar_tablero(facil,pantalla)
 #llenar_tablero(medio,pantalla)
-llenar_tablero(dificil, pantalla)
+
+
+seleccion = None
+dificultad_elegida = None
+match seleccion:
+    case 1:
+        dificultad_elegida = facil
+    case 2:
+        dificultad_elegida = medio
+    case 3:
+        dificultad_elegida = dificil
+    case _:
+        dificultad_elegida = None
+
+
+
+llenar_tablero(dificultad_elegida, pantalla)
+
+
 
 
 # tab_usuario = [fila[:] for fila in tab_incompleto]

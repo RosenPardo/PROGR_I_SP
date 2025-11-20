@@ -1,8 +1,8 @@
 import pygame as pg
-from funciones.configuracion import reproducir_musica_loop
+
 pg.init()
 
-bandera = True
+
 
 GRIS = (200, 200, 200)
 GRIS_OSCURO = (100, 100, 100) 
@@ -16,25 +16,17 @@ def reproducir_sonido(ruta_sonido, volumen):
         sonido = pg.mixer.Sound(ruta_sonido)
         sonido.set_volume(volumen)  
         sonido.play(0)
-        pg.mixer.music.play(loops=1)
+       
         return True
     except:
         return False   
 
 
-def sonido_numero_ingresado():
-    reproducir_sonido("./sonidos/numero_ingresado.mp3", 0.2)
+def sonido_opcion_seleccionada():
+    reproducir_sonido("./sonidos/boton_seleccionado.mp3", 0.2)
 
 
-def sonido_celda_seleccionada():
-    reproducir_sonido("./sonidos/celda_marcada.mp3", 0.2)
 
-def sonido_error():
-    reproducir_sonido("./sonidos/error.mp3", 0.3)
-
-
-def sonido_acierto():
-    reproducir_sonido("./sonidos/acierto.mp3", 0.3)
 
     
 
@@ -54,16 +46,12 @@ def crear_boton(pantalla, x, y, ancho, alto, texto, accion=None):
 
     if boton_rect.collidepoint(mouse):
         
-        reproducir_sonido("./sonidos/pop.mp3",0.3 )
-        bandera = False
+        
 
 
         pg.draw.rect(pantalla, (250,100,0), boton_rect)
-        
-        if clic[0] == 1 and accion is not None:
-            pg.draw.rect(pantalla, GRIS_OSCURO, boton_rect)
-            reproducir_sonido("./sonidos/numero_ingresado.mp3",0.3)
-            accion()
+       
+       
     else:
         
         pg.draw.rect(pantalla, GRIS, boton_rect)
