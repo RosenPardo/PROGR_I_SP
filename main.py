@@ -67,18 +67,18 @@ def mostrar_puntaje() -> None:
     """
     Función que muestra el puntaje en pantalla.
     """
-    
+
     texto = f"Score: {puntaje:04d}"
     render = fuente_puntaje.render(texto, True, (0, 0, 0))
 
-    rectangulo(pantalla, "orange", 293, 8, 170, 30)
+    rectangulo(pantalla, "orange", 293, 8, 170, 30) #Fondo del score en pantalla
+    pantalla.blit(render, (298, 10)) #Posición del score en pantalla
 
-    pantalla.blit(render, (298, 10)) 
-
-def verificar_tablero():
+def verificar_tablero() -> None:
+    """Compara el tablero del usuario (tab_usuario) contra la solución (tab_completo), y modifica puntaje en pantalla, notificando en consola los errores encontrados. 
+    """
     global puntaje, regiones_completas, juego_terminado
 
-    # Compara tab_usuario contra la solución tab_completo
     errores = []
     vacias = 0
     
@@ -143,6 +143,7 @@ def verificar_tablero():
     dibujar_grilla(pantalla)
     llenar_tablero(tab_usuario, pantalla)
     mostrar_puntaje()
+
 
 
 
