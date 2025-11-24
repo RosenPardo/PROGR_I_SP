@@ -150,9 +150,10 @@ def celda_seleccionada(evento, columnas_rangos, filas_rangos, pantalla):
                         for fila in range(9):
                             inicio_y, fin_y = filas_rangos[fila]
                             if inicio_y <= y <= fin_y:
+
+                                if tab_incompleto[fila][col] != 0:
+                                    return None
+
                                 dibujar_grilla(pantalla)
                                 pg.draw.rect(pantalla, COLOR_AMARILLO, (inicio_x, inicio_y, ancho, alto), 4)
-                                #botones.sonido_celda_seleccionada()
-                                
                                 return inicio_x, inicio_y
-

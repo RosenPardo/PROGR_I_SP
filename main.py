@@ -181,20 +181,20 @@ while True:
             
         if evento.type == pg.KEYDOWN: 
             try:
-                # Celda seleccionada (donde queremos escribir / borrar)
                 pos_x, pos_y = cuadrado_seleccionado
                 fila, columna = pos_a_indices(pos_x, pos_y, columnas_rangos, filas_rangos)
 
-                if evento.key in (pg.K_BACKSPACE, pg.K_DELETE, pg.K_0):
-                    if tab_incompleto[fila][columna] == 0:
-                        tab_usuario[fila][columna] = 0
-
+                if tab_incompleto[fila][columna] != 0:
+                    pass
                 else:
-                    numero_ingresado = valores_teclas(pantalla, evento, pos_x, pos_y)
-                    
-                    if numero_ingresado in (1, 2, 3, 4, 5, 6, 7, 8, 9):
-                        botones.sonido_numero_ingresado()
-                        tab_usuario[fila][columna] = numero_ingresado
+                    if evento.key in (pg.K_BACKSPACE, pg.K_DELETE, pg.K_0):
+                        tab_usuario[fila][columna] = 0
+                    else:
+                        numero_ingresado = valores_teclas(pantalla, evento, pos_x, pos_y)
+                        
+                        if numero_ingresado in (1, 2, 3, 4, 5, 6, 7, 8, 9):
+                            botones.sonido_numero_ingresado()
+                            tab_usuario[fila][columna] = numero_ingresado
 
                 dibujar_grilla(pantalla)
                 llenar_tablero(tab_usuario, pantalla)
