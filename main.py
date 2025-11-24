@@ -71,7 +71,7 @@ def verificar_tablero() -> None:
     """
     global puntaje
 
-    errores = 0
+    errores = []
     vacias = 0
 
     # Contar errores y celdas vacías
@@ -83,7 +83,8 @@ def verificar_tablero() -> None:
             if usuario == 0:
                 vacias += 1
             elif usuario != sudoku_completo:
-                errores += 1
+                errores.append((fila, columna))
+
 
     # Contar regiones 3x3 completas
     regiones_correctas = 0
@@ -105,31 +106,29 @@ def verificar_tablero() -> None:
 
     # Calcular puntaje DESDE CERO
     puntaje = 0
-    puntaje -= errores                # -1 por cada error
-    puntaje += regiones_correctas * 9 # +9 por cada región correcta
+    puntaje -= len(errores)
+    puntaje += regiones_correctas * 9
     if tablero_completo_correcto:
-        puntaje += 81                 # +81 extra si el tablero entero es correcto
+        puntaje += 81
 
-    if errores > 0:
+    if len(errores) > 0:
         botones.sonido_error()
     elif tablero_completo_correcto:
         botones.sonido_acierto()
 
-    if errores > 0:
-        print(f"Encontré {errores} error(es).")
-    else:
-        if vacias > 0:
-            print(f"No hay errores, pero quedan {vacias} celdas vacías.")
-        else:
-            print("Sudoku correcto: ¡ganaste! Puntaje máximo en esta verificación.")
-
-    # Redibujar fondo, grilla, tablero y puntaje
     pantalla.blit(fondo, (0, 0))
     dibujar_grilla(pantalla)
     llenar_tablero(tab_usuario, pantalla)
+    
+    CELL = 72 
+    OFFSET = 52
+    
+    for fila, columna in errores:
+        x = OFFSET + columna * CELL
+        y = OFFSET + fila * CELL
+        pg.draw.rect(pantalla, (255, 0, 0), (x, y, ancho, alto), 4)
+        
     mostrar_puntaje()
-
-
 
 def reiniciar_tablero():
     global tab_usuario, cuadrado_seleccionado, puntaje
@@ -161,6 +160,7 @@ def desmutear():
 
 
 while True:
+
     botones.crear_boton(pantalla, 703, 53, 240, 52, "VERIFICAR", verificar_tablero)
     botones.crear_boton(pantalla, 703, 115, 240, 52, "REINICIAR", reiniciar_tablero)
     botones.crear_boton(pantalla, 703, 177, 240, 52, "VOLVER", None)
@@ -206,19 +206,3 @@ while True:
     mostrar_puntaje()   
     pg.display.flip()
 
-
-
-"""
-if evento.type == pg.QUIT:
-            pg.quit()
-            exit()
-        elif evento.type == pg.MOUSEBUTTONDOWN:
-            cuadrado_seleccionado = celda_seleccionada(evento, columnas_rangos, filas_rangos, pantalla)
-        
-        if evento.type == pg.KEYDOWN: 
-            try:
-                pos_x, pos_y = cuadrado_seleccionado
-                valores_teclas(pantalla, evento, pos_x, pos_y)
-            except:
-                pass
-"""

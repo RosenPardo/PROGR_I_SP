@@ -13,6 +13,9 @@ COLOR_BLANCO = (235, 235, 235)
 COLOR_NEGRO = (0, 0, 0)
 COLOR_GRIS = (200, 200, 200)
 COLOR_AMARILLO = (255, 230, 133)
+COLOR_CELDA_FIJA = (220, 230, 255)
+MARGEN = 3
+
 espaciado = 72
 espaciado_extra = 2
 celdas_ocupadas = []
@@ -85,18 +88,20 @@ def llenar_tablero(sudoku_incompleto, visor):
     for posicion_fila in range(9):
         fila = sudoku_incompleto[posicion_fila]
         for posicion_columna in range(9):
+            x = OFFSET + posicion_columna * CELL
+            y = OFFSET + posicion_fila * CELL
+
+            if tab_incompleto[posicion_fila][posicion_columna] != 0:
+                 pg.draw.rect(
+                    visor,
+                    COLOR_CELDA_FIJA,
+                    (x + MARGEN, y + MARGEN, CELL - 2 * MARGEN, CELL - 2 * MARGEN),
+                )
+
             numero = fila[posicion_columna]
             if numero != 0:
-                x = OFFSET + posicion_columna * CELL
-                y = OFFSET + posicion_fila * CELL
                 celdas_ocupadas.append((x, y))
                 visor.blit(numero_imagenes[numero], (x, y))
-
-    # print(f"la cantidad de celdas ocupadas es :{contador(celdas_ocupadas)}")
-    # print("Celdas ocupadas:")
-    # print(celdas_ocupadas)  
-
-
 
 
 def iniciar_juego():
