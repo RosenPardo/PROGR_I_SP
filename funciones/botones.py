@@ -8,6 +8,9 @@ GRIS = (200, 200, 200)
 GRIS_OSCURO = (100, 100, 100) 
 NEGRO = (0, 0, 0)
 
+_estados_click = {}
+_estados_hover = {}
+
 def reproducir_sonido(ruta_sonido, volumen):
     """
     Función para reproducir un sonido una sola vez
@@ -36,48 +39,46 @@ def sonido_error():
 def sonido_acierto():
     reproducir_sonido("./sonidos/acierto.mp3", 0.3)
 
-    
-
-
-    
 
 
 
 def crear_boton(pantalla, x, y, ancho, alto, texto, accion=None):
-    
     mouse = pg.mouse.get_pos()
-    clic = pg.mouse.get_pressed()
-    
+    click_izquierdo = pg.mouse.get_pressed()[0]
+
     boton_rect = pg.Rect(x, y, ancho, alto)
-    
-    
+    hover = boton_rect.collidepoint(mouse)
 
-    if boton_rect.collidepoint(mouse):
-        
-        reproducir_sonido("./sonidos/pop.mp3",0.3 )
-        bandera = False
+    # Estados anteriores (por texto de botón)
+    click_anterior = _estados_click.get(texto, False)
+    hover_anterior = _estados_hover.get(texto, False)
 
+    if hover and not hover_anterior:
+        reproducir_sonido("./sonidos/pop.mp3", 0.3)
 
-        pg.draw.rect(pantalla, (250,100,0), boton_rect)
-        
-        if clic[0] == 1 and accion is not None:
-            pg.draw.rect(pantalla, GRIS_OSCURO, boton_rect)
-            reproducir_sonido("./sonidos/numero_ingresado.mp3",0.3)
-            accion()
+    # ----- DIBUJO DEL BOTÓN -----
+    if hover:
+        # Si está apretado, se ve más oscuro
+        color_boton = GRIS_OSCURO if click_izquierdo else (250, 100, 0)
     else:
-        
-        pg.draw.rect(pantalla, GRIS, boton_rect)
-    
-    # Dibujar borde y texto
-    pg.draw.rect(pantalla, NEGRO, boton_rect, 2) #color bordes
+        color_boton = GRIS
+
+    pg.draw.rect(pantalla, color_boton, boton_rect)
+
+    # ----- CLICK: ACCIÓN SOLO EN EL CAMBIO 0 -> 1 -----
+    es_nuevo_click = hover and click_izquierdo and not click_anterior
+
+    if es_nuevo_click and accion is not None:
+        reproducir_sonido("./sonidos/numero_ingresado.mp3", 0.3)
+        accion()
+
+    # Actualizar estados
+    _estados_click[texto] = click_izquierdo
+    _estados_hover[texto] = hover
+
+    pg.draw.rect(pantalla, NEGRO, boton_rect, 2)
     fuente = pg.font.Font(None, 36)
-    texto_render = fuente.render(texto, True, NEGRO) # color letras
+    texto_render = fuente.render(texto, True, NEGRO)
     texto_objeto = texto_render.get_rect(center=boton_rect.center)
     pantalla.blit(texto_render, texto_objeto)
-
-
-
-
-
-
     
