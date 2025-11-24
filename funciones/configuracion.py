@@ -1,9 +1,8 @@
 import pygame as pg
-from funciones.sudoku import tab_incompleto, tab_completo, facil, medio, dificil
+import funciones.sudoku as sudoku
 import funciones.numeros as numeros 
 
 pg.init()
-
 
 pos_x = 52
 pos_y = 52
@@ -23,7 +22,6 @@ fondito = pg.image.load("./img/fondo.png")
 fondo = pg.transform.scale(fondito,(1002, 750))  
 
 
-
 def reproducir_musica_loop(ruta_mp3,volumen):
     """
     Función para reproducir MP3 en loop infinito
@@ -36,8 +34,6 @@ def reproducir_musica_loop(ruta_mp3,volumen):
         return True
     except:
         return False
-
-
 
 
 def coordenadas_celdas(pos_inicial, ancho_celda, espaciado_celdas, cantidad):
@@ -54,10 +50,6 @@ def coordenadas_celdas(pos_inicial, ancho_celda, espaciado_celdas, cantidad):
 
 columnas_rangos = coordenadas_celdas(pos_x, ancho, espaciado_extra, 9)
 filas_rangos = coordenadas_celdas(pos_y, alto, espaciado_extra, 9)
-
-
-
-
 
 
 def contador(lista):
@@ -91,7 +83,7 @@ def llenar_tablero(sudoku_incompleto, visor):
             x = OFFSET + posicion_columna * CELL
             y = OFFSET + posicion_fila * CELL
 
-            if tab_incompleto[posicion_fila][posicion_columna] != 0:
+            if sudoku.tab_incompleto[posicion_fila][posicion_columna] != 0:
                  pg.draw.rect(
                     visor,
                     COLOR_CELDA_FIJA,
@@ -119,8 +111,10 @@ def iniciar_juego():
 
     return pantalla
 
+
 def rectangulo(pantalla, color, pos_x, pos_y, ancho, alto):
     pg.draw.rect(pantalla, color, (pos_x, pos_y, ancho, alto))
+
 
 def dibujar_grilla(pantalla):
     rectangulo(pantalla, COLOR_NEGRO, pos_x, pos_y, ancho = 645, alto = 645)
@@ -151,9 +145,10 @@ def celda_seleccionada(evento, columnas_rangos, filas_rangos, pantalla):
                             inicio_y, fin_y = filas_rangos[fila]
                             if inicio_y <= y <= fin_y:
 
-                                if tab_incompleto[fila][col] != 0:
+                                if sudoku.tab_incompleto[fila][col] != 0:
                                     return None
 
                                 dibujar_grilla(pantalla)
                                 pg.draw.rect(pantalla, COLOR_AMARILLO, (inicio_x, inicio_y, ancho, alto), 4)
                                 return inicio_x, inicio_y
+

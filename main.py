@@ -4,6 +4,7 @@ from funciones.sudoku import *
 import funciones.botones as botones
 from funciones.numeros import *
 from funciones.teclas import *
+import funciones.sudoku as sudoku
 
 pg.init()   
 
@@ -11,6 +12,9 @@ volumen_musica = 0.5
 reproducir_musica_loop("./sonidos/musica_fondo.mp3", volumen_musica)
 
 puntaje = 0  
+regiones_completas = set()
+tablero_completo_bonificado = False
+
 pantalla = iniciar_juego()
 pantalla.blit(fondo, (0, 0))
 dibujar_grilla(pantalla)
@@ -69,7 +73,7 @@ def verificar_tablero() -> None:
     +9 puntos por cada región 3x3 completamente correcta.
     +81 puntos extra si toda la matriz 9x9 está correcta (sin errores ni celdas vacías).
     """
-    global puntaje
+    global puntaje, regiones_completas, tablero_completo_bonificado
 
     errores = []
     vacias = 0
@@ -85,9 +89,8 @@ def verificar_tablero() -> None:
             elif usuario != sudoku_completo:
                 errores.append((fila, columna))
 
-
     # Contar regiones 3x3 completas
-    regiones_correctas = 0
+    nuevas_regiones = 0
     for start_fila in (0, 3, 6):
         for start_columna in (0, 3, 6):
             region_ok = True
@@ -99,17 +102,20 @@ def verificar_tablero() -> None:
                 if not region_ok:
                     break
             if region_ok:
-                regiones_correctas += 1
+                region_id = (start_fila, start_columna)
+                if region_id not in regiones_completas:
+                    regiones_completas.add(region_id)
+                    nuevas_regiones += 1
 
     # Ver si el tablero completo está perfecto
-    tablero_completo_correcto = (errores == 0 and vacias == 0)
+    tablero_completo_correcto = (len(errores) == 0 and vacias == 0)
 
     # Calcular puntaje DESDE CERO
-    puntaje = 0
-    puntaje -= len(errores)
-    puntaje += regiones_correctas * 9
-    if tablero_completo_correcto:
-        puntaje += 81
+    puntaje -= len(errores)           # -1 por cada error en ESTA verificación
+    puntaje += nuevas_regiones * 9    # +9 por cada región nueva correcta
+    if tablero_completo_correcto and not tablero_completo_bonificado:
+        puntaje += 81                 # +81 solo la primera vez que está perfecto
+        tablero_completo_bonificado = True
 
     if len(errores) > 0:
         botones.sonido_error()
@@ -131,18 +137,37 @@ def verificar_tablero() -> None:
     mostrar_puntaje()
 
 def reiniciar_tablero():
-    global tab_usuario, cuadrado_seleccionado, puntaje
+    global tab_usuario, cuadrado_seleccionado, puntaje, tab_incompleto, tab_completo
+    global regiones_completas, tablero_completo_bonificado
 
-    tab_usuario = [fila[:] for fila in tab_incompleto]
-    cuadrado_seleccionado = None
+    # Reset de estado del puntaje acumulado
+    regiones_completas = set()
+    tablero_completo_bonificado = False
     puntaje = 0
 
+    # Generar un tablero COMPLETO nuevo
+    sudoku.tab_completo = sudoku.generar_tablero_completo()
+
+    # Generar un tablero INCOMPLETO nuevo
+    sudoku.tab_incompleto = sudoku.crear_sudoku_incompleto_por_bloque(
+        sudoku.tab_completo,
+        visibles_por_bloque=5
+    )
+
+    # Actualizar referencias locales de main.py
+    tab_completo = sudoku.tab_completo
+    tab_incompleto = sudoku.tab_incompleto
+
+    # Nuevo tablero de usuario
+    tab_usuario = [fila[:] for fila in tab_incompleto]
+    cuadrado_seleccionado = None
+
+    # Redibujar
     pantalla.blit(fondo, (0, 0))
     dibujar_grilla(pantalla)
     llenar_tablero(tab_usuario, pantalla)
     mostrar_puntaje()
 
-    print("Sudoku reiniciado")
 
 
 def mutear():
