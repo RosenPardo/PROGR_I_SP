@@ -5,6 +5,7 @@ import funciones.botones as botones
 from funciones.numeros import *
 from funciones.teclas import *
 import funciones.sudoku as sudoku
+from puntajes.puntaje import guardar_puntajes 
 
 pg.init()   
 
@@ -116,6 +117,8 @@ def verificar_tablero() -> None:
     if tablero_completo_correcto and not tablero_completo_bonificado:
         puntaje += 81                 # +81 solo la primera vez que está perfecto
         tablero_completo_bonificado = True
+        nombre = "" #SE TIENE QUE AGREGAR NOMBRE EN PANTALLA
+        guardar_puntajes(puntaje, nombre)
 
     if len(errores) > 0:
         botones.sonido_error()
@@ -222,7 +225,6 @@ while True:
                 
             except:
                 pass
-        
     mostrar_puntaje()   
     pg.display.flip()
 
