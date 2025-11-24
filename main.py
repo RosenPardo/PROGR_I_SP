@@ -218,7 +218,7 @@ while True:
 
                 dibujar_grilla(pantalla)
                 llenar_tablero(tab_usuario, pantalla)
-                pg.draw.rect(pantalla, COLOR_AMARILLO, (inicio_x, inicio_y, ancho, alto), 4)
+                pg.draw.rect(pantalla, COLOR_AMARILLO, (pos_x, pos_y, ancho, alto), 4)
                 
             except:
                 pass
