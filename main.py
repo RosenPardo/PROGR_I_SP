@@ -182,19 +182,14 @@ def desmutear():
     pg.mixer.music.set_volume(volumen_musica)  
 
 
-
-
 while True:
-
     botones.crear_boton(pantalla, 703, 53, 240, 52, "VERIFICAR", verificar_tablero)
     botones.crear_boton(pantalla, 703, 115, 240, 52, "REINICIAR", reiniciar_tablero)
     botones.crear_boton(pantalla, 703, 177, 240, 52, "VOLVER", None)
     botones.crear_boton(pantalla, 800, 700, 160, 50, "DESMUTEAR", desmutear)
     botones.crear_boton(pantalla, 680, 700, 120, 50, "MUTEAR", mutear)
 
-
     for evento in pg.event.get():
-        
         if evento.type == pg.QUIT:
             pg.quit()
             exit()

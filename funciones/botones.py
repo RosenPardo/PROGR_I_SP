@@ -1,5 +1,6 @@
 import pygame as pg
 from funciones.configuracion import reproducir_musica_loop
+
 pg.init()
 
 bandera = True
@@ -38,8 +39,6 @@ def sonido_error():
 
 def sonido_acierto():
     reproducir_sonido("./sonidos/acierto.mp3", 0.3)
-
-
 
 
 def crear_boton(pantalla, x, y, ancho, alto, texto, accion=None):
