@@ -161,7 +161,6 @@ def desmutear():
 
 
 while True:
-    
     botones.crear_boton(pantalla, 703, 53, 240, 52, "VERIFICAR", verificar_tablero)
     botones.crear_boton(pantalla, 703, 115, 240, 52, "REINICIAR", reiniciar_tablero)
     botones.crear_boton(pantalla, 703, 177, 240, 52, "VOLVER", None)
@@ -182,30 +181,25 @@ while True:
             
         if evento.type == pg.KEYDOWN: 
             try:
+                # Celda seleccionada (donde queremos escribir / borrar)
                 pos_x, pos_y = cuadrado_seleccionado
-                numero_ingresado = valores_teclas(pantalla, evento, pos_x, pos_y)
-                
+                fila, columna = pos_a_indices(pos_x, pos_y, columnas_rangos, filas_rangos)
+
                 if evento.key in (pg.K_BACKSPACE, pg.K_DELETE, pg.K_0):
-                    # Solo permitir borrar si NO es un número original del sudoku
                     if tab_incompleto[fila][columna] == 0:
                         tab_usuario[fila][columna] = 0
-                        # Redibujamos grilla + números desde tab_usuario
-                        dibujar_grilla(pantalla)
-                        llenar_tablero(tab_usuario, pantalla)
-                    # Si era una pista original (tab_incompleto != 0), no hacemos nada
-                    
+
                 else:
                     numero_ingresado = valores_teclas(pantalla, evento, pos_x, pos_y)
                     
-                    if numero_ingresado in (1,2,3,4,5,6,7,8,9):
+                    if numero_ingresado in (1, 2, 3, 4, 5, 6, 7, 8, 9):
                         botones.sonido_numero_ingresado()
-                        # Guardamos ese número en el tablero del usuario
-                        fila, columna = pos_a_indices(pos_x, pos_y, columnas_rangos, filas_rangos)
                         tab_usuario[fila][columna] = numero_ingresado
 
-                    # Redibujamos grilla + tablero según tab_usuario
-                    dibujar_grilla(pantalla)
-                    llenar_tablero(tab_usuario, pantalla)
+                dibujar_grilla(pantalla)
+                llenar_tablero(tab_usuario, pantalla)
+                pg.draw.rect(pantalla, COLOR_AMARILLO, (inicio_x, inicio_y, ancho, alto), 4)
+                
             except:
                 pass
         

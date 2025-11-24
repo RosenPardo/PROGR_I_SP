@@ -146,8 +146,7 @@ def celda_seleccionada(evento, columnas_rangos, filas_rangos, pantalla):
                             inicio_y, fin_y = filas_rangos[fila]
                             if inicio_y <= y <= fin_y:
                                 dibujar_grilla(pantalla)
-                                rectangulo(pantalla, COLOR_AMARILLO, inicio_x, inicio_y, ancho, alto)
-                                
+                                pg.draw.rect(pantalla, COLOR_AMARILLO, (inicio_x, inicio_y, ancho, alto), 4)
                                 #botones.sonido_celda_seleccionada()
                                 
                                 return inicio_x, inicio_y
