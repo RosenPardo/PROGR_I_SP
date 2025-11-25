@@ -65,26 +65,3 @@ def obtener_texto(barra) -> str:
     texto = barra['texto_ingresado']
     barra['texto_ingresado'] = None
     return texto
-
-# Ejemplo de uso
-if __name__ == "__main__":
-    pg.init()
-    pantalla = pg.display.set_mode((1002, 750))
-    clock = pg.time.Clock()
-    
-    barra = crear_barra_texto(320, 595)
-    running = True
-    
-    while running:
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                running = False
-            if manejar_barra(barra, event):
-                print("Texto:", obtener_texto(barra))
-        
-        pantalla.fill((240, 240, 240))
-        dibujar_barra(barra, pantalla)
-        pg.display.flip()
-        clock.tick(60)
-    
-    pg.quit()

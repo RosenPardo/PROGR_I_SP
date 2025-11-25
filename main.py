@@ -524,3 +524,4 @@ while running:
     mostrar_puntaje()
     pg.display.flip()
     clock.tick(60)
+    
