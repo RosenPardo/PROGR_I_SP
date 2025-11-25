@@ -84,7 +84,7 @@ def llenar_tablero(sudoku_incompleto, visor):
             y = OFFSET + posicion_fila * CELL
 
             if sudoku.tab_incompleto[posicion_fila][posicion_columna] != 0:
-                 pg.draw.rect(
+                pg.draw.rect(
                     visor,
                     COLOR_CELDA_FIJA,
                     (x + MARGEN, y + MARGEN, CELL - 2 * MARGEN, CELL - 2 * MARGEN),

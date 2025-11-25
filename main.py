@@ -5,7 +5,7 @@ import funciones.botones as botones
 from funciones.numeros import *
 from funciones.teclas import *
 import funciones.sudoku as sudoku
-from puntajes.puntaje import guardar_puntajes 
+from puntajes.puntaje import *
 
 pg.init()   
 
@@ -218,7 +218,6 @@ while True:
                         if numero_ingresado in (1, 2, 3, 4, 5, 6, 7, 8, 9):
                             botones.sonido_numero_ingresado()
                             tab_usuario[fila][columna] = numero_ingresado
-
                 dibujar_grilla(pantalla)
                 llenar_tablero(tab_usuario, pantalla)
                 pg.draw.rect(pantalla, COLOR_AMARILLO, (pos_x, pos_y, ancho, alto), 4)

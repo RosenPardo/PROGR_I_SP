@@ -1,5 +1,7 @@
 import json
+import pygame as pg
 
+pg.init()
 
 def guardar_puntajes(puntaje: int, nombre: str) -> list:
     """
@@ -34,7 +36,8 @@ def guardar_puntajes(puntaje: int, nombre: str) -> list:
     return lista_ordenada
 
 def ver_puntajes() -> list:
-    """Función que lee el archivo json de mejores puntajes.
+    """
+    Función que lee el archivo json de mejores puntajes.
 
     Returns:
         list: Lista de los 5 mejores puntajes obtenidos en el juego.
@@ -43,3 +46,21 @@ def ver_puntajes() -> list:
         puntajes = json.load(archivo_json)
     
     return puntajes
+
+def nombre_usuario(evento, pantalla):
+    BLANCO = (255, 255, 255)
+    font = pg.font.Font(None, 36)
+    user_text = ""
+    if evento.type == pg.KEYDOWN:
+        if evento.key == pg.K_BACKSPACE:
+            user_text = user_text[:-1]
+        else:
+            user_text += evento.unicode
+
+    input_surface = font.render(user_text, True, BLANCO)
+
+    pantalla.blit(input_surface, (10,20))
+
+    pg.display.flip()
+
+    return user_text
