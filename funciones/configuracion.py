@@ -24,7 +24,7 @@ fondo = pg.transform.scale(fondito,(1002, 750))
 
 def reproducir_musica_loop(ruta_mp3,volumen):
     """
-    Función para reproducir MP3 en loop infinito
+    reproduce un sonido MP3 en loop infinito
     """
     try:
         pg.mixer.init()
@@ -36,7 +36,20 @@ def reproducir_musica_loop(ruta_mp3,volumen):
         return False
 
 
-def coordenadas_celdas(pos_inicial, ancho_celda, espaciado_celdas, cantidad):
+def coordenadas_celdas(pos_inicial, ancho_celda, espaciado_celdas, cantidad) -> list:
+    """
+    calcula las coordenadas de inicio y fin para una serie 
+    de celdas consecutivas, considerando el ancho de cada celda y el espacio entre ellas
+
+    Args:
+        pos_inicial : posicion en el eje inicial
+        ancho_celda : ancho de la celda individual
+        espaciado_celdas : espacio entre celdas
+        cantidad : cantidad de celdas
+
+    Returns:
+        lista de rangos de de las celdas
+    """
     rangos = []
     actual = pos_inicial
     
@@ -52,15 +65,17 @@ columnas_rangos = coordenadas_celdas(pos_x, ancho, espaciado_extra, 9)
 filas_rangos = coordenadas_celdas(pos_y, alto, espaciado_extra, 9)
 
 
-def contador(lista):
-    acumulador = 0
-    for _ in range(len(lista)):
-        acumulador += 1
-    
-    return acumulador
+def llenar_tablero(sudoku_incompleto, visor) -> None:
+    """
+    Dibuja un tablero de Sudoku incompleto en la superficie especificada.
 
+    Args:
+        sudoku_incompleto (list): Matriz 9x9 del tablero de Sudoku incompleto.
+                                Cada elemento es un entero entre 0-9, donde 0 indica celda vacía.
+       
+        visor : Superficie donde se dibujará el tablero.
 
-def llenar_tablero(sudoku_incompleto, visor):
+    """
     CELL = 72
     OFFSET = 52
 
@@ -97,6 +112,9 @@ def llenar_tablero(sudoku_incompleto, visor):
 
 
 def iniciar_juego():
+    """
+    inicializa la pantalla del juego con sus dimenciones, icono y titulo.
+    """
     pg.init()
 
     icono = pg.image.load("./img/icono.png") 
@@ -112,11 +130,28 @@ def iniciar_juego():
     return pantalla
 
 
-def rectangulo(pantalla, color, pos_x, pos_y, ancho, alto):
+def rectangulo(pantalla, color, pos_x, pos_y, ancho, alto) -> None:
+    """
+    dibuja un rectangulo en pantalla
+
+    Args:
+        pantalla : superficie donde de va dibujar
+        color : color del rectangulo
+        pos_x : posicion x del rectangulo
+        pos_y : posicion y del rectangulo
+        ancho : ancho del rectangulo
+        alto : alto del rectangulo
+    """
     pg.draw.rect(pantalla, color, (pos_x, pos_y, ancho, alto))
 
 
 def dibujar_grilla(pantalla):
+    """
+    Dibuja la grilla completa de un tablero de Sudoku en la pantalla especificada.
+
+    Args:
+        pantalla : Superficie donde se dibujará la grilla.
+    """
     rectangulo(pantalla, COLOR_NEGRO, pos_x, pos_y, ancho = 645, alto = 645)
     
     x = pos_x
@@ -137,18 +172,35 @@ def dibujar_grilla(pantalla):
     
 
 def celda_seleccionada(evento, columnas_rangos, filas_rangos, pantalla):
-                x, y = evento.pos
-                for col in range(9):
-                    inicio_x, fin_x = columnas_rangos[col]
-                    if inicio_x <= x <= fin_x:
-                        for fila in range(9):
-                            inicio_y, fin_y = filas_rangos[fila]
-                            if inicio_y <= y <= fin_y:
+    """
+        sellecciona y resalta la celda de un tablero de Sudoku seleccionada por el usuario.
 
-                                if sudoku.tab_incompleto[fila][col] != 0:
-                                    return None
+        Args:
+            evento (pygame.Event): Evento de PyGame de la posición del clic del mouse.
+            columnas_rangos (list): Lista de tuplas con los rangos (inicio, fin) de las columnas.
+            filas_rangos (list): Lista de tuplas con los rangos (inicio, fin) de las filas.
+            pantalla : Superficie donde se dibujará el resaltado.
 
-                                dibujar_grilla(pantalla)
-                                pg.draw.rect(pantalla, COLOR_AMARILLO, (inicio_x, inicio_y, ancho, alto), 4)
-                                return inicio_x, inicio_y
+        Returns:
+            tuple or None: Tupla con las coordenadas (x, y) de la celda seleccionada si es válida,
+                        o None si:
+                                    - La celda pertenece al tablero original (no editable)
+                                    - El clic está fuera del tablero
+                                    - No se encuentra una celda válida
+    """
+    x, y = evento.pos
+    for col in range(9):
+        inicio_x, fin_x = columnas_rangos[col]
+        if inicio_x <= x <= fin_x:
+            for fila in range(9):
+                inicio_y, fin_y = filas_rangos[fila]
+                if inicio_y <= y <= fin_y:
+
+                    if sudoku.tab_incompleto[fila][col] != 0:
+                        return None
+
+                    dibujar_grilla(pantalla)
+                    pg.draw.rect(pantalla, COLOR_AMARILLO, (inicio_x, inicio_y, ancho, alto), 4)
+                    return inicio_x, inicio_y
+
 

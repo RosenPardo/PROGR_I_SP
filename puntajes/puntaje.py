@@ -36,22 +36,3 @@ def guardar_puntajes(puntaje: int, nombre: str) -> list:
     return lista_ordenada
 
 
-
-def nombre_ingresado(evento, pantalla, nombre_usuario):
-    BLANCO = (255, 255, 255)
-    fuente = pg.font.Font(None, 40)
-
-    if evento.type == pg.KEYDOWN:
-        if evento.key == pg.K_BACKSPACE:
-            nombre_usuario = nombre_usuario[:-1]
-        else:
-            if evento.unicode.isalpha() or evento.unicode == ' ':
-                nombre_usuario += evento.unicode
-
-    input_surface = fuente.render(nombre_usuario, True, BLANCO)
-
-    pantalla.blit(input_surface, (10,20))
-
-    pg.display.flip()
-
-    return nombre_usuario

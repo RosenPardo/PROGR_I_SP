@@ -34,9 +34,13 @@ imprimir_tablero(tab_completo)
 errores_en_tablero = []
 mostrar_errores = False
 
-#  MENÚ INICIAL 
+#  MENÚ INICIAL
+
+# se carga y se redimensiona el fondo del menu  
 fondo_menu_init = pg.image.load("./img/fondo_menu.png")
 fondo_menu = pg.transform.scale(fondo_menu_init, (1002, 750))
+
+
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -422,13 +426,14 @@ while running:
     if en_menu:
         #  PANTALLA DE MENÚ 
         for evento in pg.event.get():
+            
             if evento.type == pg.QUIT:
                 finalizar()
             
             if manejar_barra(barra, evento):
                 nombre_de_usuario_ingresado = obtener_texto(barra)
-                print(f"Valor de variable nombre_de_usuario_ingresado\n:tipo{type(nombre_de_usuario_ingresado)}\nnick : {nombre_de_usuario_ingresado}")
-        
+
+                
         if en_puntajes:
             pantalla.blit(fondo_menu, (0, 0))
             ver_puntajes()

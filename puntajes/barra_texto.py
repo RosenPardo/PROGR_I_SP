@@ -37,6 +37,9 @@ def dibujar_barra(barra, pantalla):
 
 def manejar_barra(barra, evento):
     """Maneja eventos de la barra"""
+
+    #selecciona para poder empezar a escribir en la barra de texto
+
     if evento.type == pg.MOUSEBUTTONDOWN:
         barra['activo'] = barra['rect'].collidepoint(evento.pos)
         if barra['rect_boton'].collidepoint(evento.pos):
@@ -44,6 +47,8 @@ def manejar_barra(barra, evento):
             return True
         return False
     
+    # borra o guarda texto de la barra de texto
+
     if evento.type == pg.KEYDOWN and barra['activo']:
         if evento.key == pg.K_RETURN:
             barra['texto_ingresado'] = barra['texto']
@@ -55,7 +60,7 @@ def manejar_barra(barra, evento):
     
     return False
 
-def obtener_texto(barra):
+def obtener_texto(barra) -> str:
     """Obtiene el texto ingresado"""
     texto = barra['texto_ingresado']
     barra['texto_ingresado'] = None

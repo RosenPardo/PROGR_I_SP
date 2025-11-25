@@ -20,39 +20,55 @@ def reproducir_sonido(ruta_sonido, volumen):
     """
     Función para reproducir un sonido una sola vez
     """
+    salida = bool
     try:
         sonido = pg.mixer.Sound(ruta_sonido)
         sonido.set_volume(volumen)
         sonido.play()
-        return True
+        salida = True
     except Exception:
-        return False   
+        salida = False  
+    return salida 
 
 
-def sonido_numero_ingresado():
+def sonido_numero_ingresado() -> None:
+    """
+    reproduce el sonido de numero ingresado 
+    """
     reproducir_sonido("./sonidos/numero_ingresado.mp3", 0.2)
 
 
-def sonido_celda_seleccionada():
+def sonido_celda_seleccionada() -> None:
+    """
+    reproduce el sonido de celda marcada 
+    """
     reproducir_sonido("./sonidos/celda_marcada.mp3", 0.2)
 
-def sonido_error():
+def sonido_error() -> None:
+    """
+    reproduce el sonido de error 
+    """
     reproducir_sonido("./sonidos/error.mp3", 0.3)
 
 
-def sonido_acierto():
+def sonido_acierto() -> None:
+    """
+    reproduce el sonido de acierto
+    """
     reproducir_sonido("./sonidos/acierto.mp3", 0.3)
 
 
 class Boton:
     """
-    Botón que:
-    - Muestra texto.
-    - Cambia de color con hover.
-    - Opcional: maneja estado ON/OFF interno.
-    - Ejecuta una acción en el click.
-    """
+    se inicializa la clase Boton que:
 
+        - Muestra texto.
+        - Cambia de color con hover.
+        - Opcional: maneja estado ON/OFF interno.
+        - Ejecuta una acción en el click.
+
+    """
+    
     def __init__(
         self,
         x,
@@ -65,6 +81,7 @@ class Boton:
         toggle=False,
         accion=None,
     ):
+        
         self.rect = pg.Rect(x, y, width, height)
         self.texto = texto
         self.color_base = color_base
@@ -78,10 +95,11 @@ class Boton:
         # Acción al hacer click
         self.accion = accion
 
-        # Para detectar flanco de click y sonido de hover
+        # Para detectar que el mouse esta sobre el boton y sonido de hover
         self._hover_anterior = False
         self._click_anterior = False
 
+    # dibujar hover 
     def dibujar(self, superficie):
         mouse_pos = pg.mouse.get_pos()
         click_izquierdo = pg.mouse.get_pressed()[0]
