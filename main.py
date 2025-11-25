@@ -59,15 +59,15 @@ def pos_a_indices(pos_x: int, pos_y: int, columnas_rangos: list, filas_rangos: l
         tuple[int | None, int | None]: Tupla con (fila, columna) donde cada elemento es el índice correspondiente, o None si no se encuentra coincidencia exacta. 
     """
     col = None
-    for i in range(len(columnas_rangos)):
-        sx = columnas_rangos[i]
+    for i, (sx, ex) in enumerate(columnas_rangos):
+        # columnas_rangos[i] es (inicio_x, fin_x)
         if sx == pos_x:
             col = i
             break
 
     fila = None
-    for j in range(len(filas_rangos)):
-        sy = filas_rangos[j]
+    for j, (sy, ey) in enumerate(filas_rangos):
+        # filas_rangos[j] es (inicio_y, fin_y)
         if sy == pos_y:
             fila = j
             break
