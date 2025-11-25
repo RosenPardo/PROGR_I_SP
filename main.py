@@ -376,6 +376,9 @@ boton_volver = botones.Boton(
     accion=volver_al_menu,
 )
 
+
+
+
 clock = pg.time.Clock()
 cuadrado_seleccionado = None
 
