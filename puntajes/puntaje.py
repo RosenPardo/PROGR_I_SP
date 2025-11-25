@@ -49,18 +49,19 @@ def ver_puntajes() -> list:
 
 def nombre_usuario(evento, pantalla):
     BLANCO = (255, 255, 255)
-    font = pg.font.Font(None, 36)
-    user_text = ""
+    fuente = pg.font.Font(None, 36)
+    texto_usuario = ""
     if evento.type == pg.KEYDOWN:
         if evento.key == pg.K_BACKSPACE:
-            user_text = user_text[:-1]
+            texto_usuario = texto_usuario[:-1]
         else:
-            user_text += evento.unicode
+            if evento.unicode.isalpha() or evento.unicode == ' ':
+                texto_usuario += evento.unicode
 
-    input_surface = font.render(user_text, True, BLANCO)
+    input_surface = fuente.render(texto_usuario, True, BLANCO)
 
     pantalla.blit(input_surface, (10,20))
 
     pg.display.flip()
 
-    return user_text
+    return texto_usuario
