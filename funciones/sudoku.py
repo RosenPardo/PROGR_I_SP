@@ -1,7 +1,7 @@
 import random
 
 def generar_tablero_completo():
-    '''sudoku 9x9 validado'''
+    """Se genera SUDOKU 9x9 validado"""
 
 
     tablero = []

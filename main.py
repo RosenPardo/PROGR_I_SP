@@ -6,7 +6,6 @@ from funciones.numeros import *
 from funciones.teclas import *
 import funciones.sudoku as sudoku
 from puntajes.puntaje import *
-
 from puntajes.barra_texto import *
 
 pg.init()
@@ -175,7 +174,10 @@ def verificar_tablero() -> None:
     mostrar_errores = True
 
 
-def reiniciar_tablero():
+def reiniciar_tablero() -> None:
+    """
+    Reinicia el tablero, generando nuevamente el SUDOKU. 
+    """
     global tab_usuario, puntaje
     global regiones_completas, tablero_completo_bonificado
     global errores_en_tablero, mostrar_errores
@@ -206,7 +208,7 @@ def reiniciar_tablero():
     llenar_tablero(tab_usuario, pantalla)
     mostrar_puntaje()
 
-def volver_desde_cartel_ganaste():
+def volver_desde_cartel_ganaste() -> None:
     """
     Acción del botón 'Volver' del cartel de victoria.
     Pone en_menu en True y cierra el cartel.
@@ -216,7 +218,7 @@ def volver_desde_cartel_ganaste():
     en_menu = True
 
 
-def mostrar_mensaje_ganaste_con_boton():
+def mostrar_mensaje_ganaste_con_boton() -> None:
     """
     Muestra un cartel de victoria con un botón 'Volver'
     que te lleva al menú principal.
@@ -266,35 +268,53 @@ def mostrar_mensaje_ganaste_con_boton():
         clock.tick(60)
 
 
-def mutear():
+def mutear() -> None:
+    """
+    Establece el volumen de la música a cero.
+    """
     global volumen_musica
     volumen_musica = 0.0
     pg.mixer.music.set_volume(volumen_musica)
 
 
-def desmutear():
+def desmutear() -> None:
+    """
+    Establece el volumen de la música a 0.5.
+    """
     global volumen_musica
     volumen_musica = 0.5
     pg.mixer.music.set_volume(volumen_musica)
 
 
-def finalizar():
+def finalizar() -> None:
+    """
+    Cierra el juego.
+    """
     pg.quit()
     exit()
 
 
-def comenzar_juego():
+def comenzar_juego() -> None:
+    """
+    Inicia el menú del juego y llama a la función reiniciar_tablero() para resetear todo.
+    """
     global en_menu
     en_menu = False
 
     # Cada vez que empiezo a jugar, reseteo todo
     reiniciar_tablero()
 
-def puntaje_en_pantalla():
+def puntaje_en_pantalla() -> None:
+    """
+    Alterna que se muestre el puntaje en el menú. 
+    """
     global en_puntajes
     en_puntajes = not en_puntajes 
     
-def volver_al_menu():
+def volver_al_menu() -> None:
+    """
+    Vuelve a la pantalla de menú, ocultando nuevamente los puntajes. 
+    """
     global en_menu, en_puntajes
 
     # Volver a la pantalla de menú
