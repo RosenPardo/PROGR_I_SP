@@ -57,16 +57,19 @@ def es_valido(tablero, fila, columna, numero):
         numero (int): Número a colocar (1 a 9).
 
     Returns:
-        bool: True si el número se puede colocar en esa posición sin romper las reglas, False en caso contrario.
+        bool: True si el número se puede colocar en esa posición sin romper las reglas, 
+              False en caso contrario.
     """
+    valido = True  # Suponemos válido hasta encontrar lo contrario
+
     # Chequear fila
     if numero in tablero[fila]:
-        return False
+        valido = False
 
     # Chequear columna
     for i in range(9):
         if tablero[i][columna] == numero:
-            return False
+            valido = False
 
     # Chequear subcuadrante 3x3
     start_fila = 3 * (fila // 3)
@@ -75,9 +78,9 @@ def es_valido(tablero, fila, columna, numero):
     for i in range(start_fila, start_fila + 3):
         for j in range(start_columna, start_columna + 3):
             if tablero[i][j] == numero:
-                return False
+                valido = False
 
-    return True
+    return valido
 
 
 def resolver(tablero):
@@ -91,20 +94,43 @@ def resolver(tablero):
     Returns:
         bool: True si el tablero se pudo resolver completamente, False si no existe solución válida.
     """
+    encontro_vacio = False   # Si encontramos al menos un casillero vacío
+    exito = False            #  Si logramos resolver a partir de esa celda
+
     for fila in range(9):
         for col in range(9):
             if tablero[fila][col] == 0:
+                encontro_vacio = True
+
                 numeros = list(range(1, 10))
                 random.shuffle(numeros)
+
                 for num in numeros:
                     if es_valido(tablero, fila, col, num):
                         tablero[fila][col] = num
+                        # Intentamos resolver recursivamente con este número puesto
                         if resolver(tablero):
-                            return True
+                            exito = True
+                            break
+                        # Si no funciono, vuelvo a dejar el 0
                         tablero[fila][col] = 0
-                return False
-    return True
 
+                # Después de probar todos los números para este casillero
+                break
+        if encontro_vacio:
+            break
+
+    if not encontro_vacio:
+        # No hay casilleros vacíos: el tablero está completo y es válido
+        resultado = True
+    elif exito:
+        # Encontramos un número que permite resolver el tablero
+        resultado = True
+    else:
+        # Había un casillero vacío pero ningún número funcionó
+        resultado = False
+
+    return resultado
 
 
 def imprimir_tablero(tablero):
