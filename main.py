@@ -335,7 +335,7 @@ boton_puntajes = botones.Boton(
 # Juego
 boton_verificar = botones.Boton(
     703, 53, 240, 52,
-    "VERIFICAR",
+    "VALIDAR",
     color_base=(200, 200, 200),
     color_hover=(250, 100, 0),
     toggle=False,
