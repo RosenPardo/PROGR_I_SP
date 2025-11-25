@@ -1,28 +1,31 @@
 import pygame as pg
-from funciones.configuracion import reproducir_musica_loop
 
 pg.init()
+pg.mixer.init()
 
-bandera = True
+#  COLORES
 
-GRIS = (200, 200, 200)
-GRIS_OSCURO = (100, 100, 100) 
+BLANCO = (255, 255, 255)
 NEGRO = (0, 0, 0)
+GRIS = (200, 200, 200)
+GRIS_OSCURO = (100, 100, 100)
+VERDE = (0, 255, 0)
+ROJO = (255, 0, 0)
 
-_estados_click = {}
-_estados_hover = {}
+# Fuente general para los botones
+font = pg.font.SysFont('Arial', 24)
 
+#  SONIDOS
 def reproducir_sonido(ruta_sonido, volumen):
     """
     Función para reproducir un sonido una sola vez
     """
     try:
         sonido = pg.mixer.Sound(ruta_sonido)
-        sonido.set_volume(volumen)  
-        sonido.play(0)
-        pg.mixer.music.play(loops=1)
+        sonido.set_volume(volumen)
+        sonido.play()
         return True
-    except:
+    except Exception:
         return False   
 
 
@@ -41,43 +44,93 @@ def sonido_acierto():
     reproducir_sonido("./sonidos/acierto.mp3", 0.3)
 
 
-def crear_boton(pantalla, x, y, ancho, alto, texto, accion=None):
-    mouse = pg.mouse.get_pos()
-    click_izquierdo = pg.mouse.get_pressed()[0]
+class Boton:
+    """
+    Botón que:
+    - Muestra texto.
+    - Cambia de color con hover.
+    - Opcional: maneja estado ON/OFF interno.
+    - Ejecuta una acción en el click.
+    """
 
-    boton_rect = pg.Rect(x, y, ancho, alto)
-    hover = boton_rect.collidepoint(mouse)
+    def __init__(
+        self,
+        x,
+        y,
+        width,
+        height,
+        texto,
+        color_base=GRIS,
+        color_hover=(250, 100, 0),
+        toggle=False,
+        accion=None,
+    ):
+        self.rect = pg.Rect(x, y, width, height)
+        self.texto = texto
+        self.color_base = color_base
+        self.color_hover = color_hover
+        self.color_actual = color_base
 
-    # Estados anteriores (por texto de botón)
-    click_anterior = _estados_click.get(texto, False)
-    hover_anterior = _estados_hover.get(texto, False)
+        # Si toggle=True, el botón tendrá self.estado ON/OFF
+        self.toggle = toggle
+        self.estado = False
 
-    if hover and not hover_anterior:
-        reproducir_sonido("./sonidos/pop.mp3", 0.3)
+        # Acción al hacer click
+        self.accion = accion
 
-    # ----- DIBUJO DEL BOTÓN -----
-    if hover:
-        # Si está apretado, se ve más oscuro
-        color_boton = GRIS_OSCURO if click_izquierdo else (250, 100, 0)
-    else:
-        color_boton = GRIS
+        # Para detectar flanco de click y sonido de hover
+        self._hover_anterior = False
+        self._click_anterior = False
 
-    pg.draw.rect(pantalla, color_boton, boton_rect)
+    def dibujar(self, superficie):
+        mouse_pos = pg.mouse.get_pos()
+        click_izquierdo = pg.mouse.get_pressed()[0]
 
-    # ----- CLICK: ACCIÓN SOLO EN EL CAMBIO 0 -> 1 -----
-    es_nuevo_click = hover and click_izquierdo and not click_anterior
+        hover = self.rect.collidepoint(mouse_pos)
 
-    if es_nuevo_click and accion is not None:
-        reproducir_sonido("./sonidos/numero_ingresado.mp3", 0.3)
-        accion()
+        # Sonido al entrar en hover
+        if hover and not self._hover_anterior:
+            reproducir_sonido("./sonidos/pop.mp3", 0.3)
 
-    # Actualizar estados
-    _estados_click[texto] = click_izquierdo
-    _estados_hover[texto] = hover
+        # Color del botón
+        if hover:
+            self.color_actual = GRIS_OSCURO if click_izquierdo else self.color_hover
+        else:
+            self.color_actual = self.color_base
 
-    pg.draw.rect(pantalla, NEGRO, boton_rect, 2)
-    fuente = pg.font.Font(None, 36)
-    texto_render = fuente.render(texto, True, NEGRO)
-    texto_objeto = texto_render.get_rect(center=boton_rect.center)
-    pantalla.blit(texto_render, texto_objeto)
-    
+        # Dibujar rectángulo del botón
+        pg.draw.rect(superficie, self.color_actual, self.rect, border_radius=10)
+        pg.draw.rect(superficie, NEGRO, self.rect, 2, border_radius=10)
+
+        # Texto del botón
+        texto_surface = font.render(self.texto, True, NEGRO)
+        texto_rect = texto_surface.get_rect(center=self.rect.center)
+        superficie.blit(texto_surface, texto_rect)
+
+        # Si es toggle, dibujar ON/OFF debajo
+        if self.toggle:
+            estado_texto = "ON" if self.estado else "OFF"
+            estado_color = VERDE if self.estado else ROJO
+            estado_surface = font.render(estado_texto, True, estado_color)
+            estado_rect = estado_surface.get_rect(
+                center=(self.rect.centerx, self.rect.centery + 30)
+            )
+            superficie.blit(estado_surface, estado_rect)
+
+        # Detectar "nuevo click" (flanco de subida)
+        es_nuevo_click = hover and click_izquierdo and not self._click_anterior
+        if es_nuevo_click:
+            # Si es toggle, cambiar estado
+            if self.toggle:
+                self.estado = not self.estado
+                sonido_acierto()  # podés cambiar a otro sonido si querés
+            else:
+                sonido_numero_ingresado()
+
+            # Ejecutar acción
+            if self.accion is not None:
+                self.accion()
+
+        # Guardar estados para el próximo frame
+        self._hover_anterior = hover
+        self._click_anterior = click_izquierdo
