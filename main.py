@@ -59,14 +59,14 @@ def pos_a_indices(pos_x: int, pos_y: int, columnas_rangos: list, filas_rangos: l
     """
     col = None
     for i in range(len(columnas_rangos)):
-        sx, ex = columnas_rangos[i]
+        sx = columnas_rangos[i]
         if sx == pos_x:
             col = i
             break
 
     fila = None
     for j in range(len(filas_rangos)):
-        sy, ey = filas_rangos[j]
+        sy = filas_rangos[j]
         if sy == pos_y:
             fila = j
             break
@@ -140,6 +140,7 @@ def verificar_tablero() -> None:
         tablero_completo_bonificado = True
         nombre = ""  # SE TIENE QUE AGREGAR NOMBRE EN PANTALLA
         guardar_puntajes(puntaje, nombre)
+        mostrar_mensaje_ganaste_con_boton()
 
     if len(errores) > 0:
         botones.sonido_error()
@@ -163,6 +164,7 @@ def reiniciar_tablero():
     puntaje = 0
     errores_en_tablero = []
     mostrar_errores = False
+    salir_cartel_ganaste = False
 
     # Generar tablero nuevo
     sudoku.tab_completo = sudoku.generar_tablero_completo()
@@ -180,6 +182,65 @@ def reiniciar_tablero():
     dibujar_grilla(pantalla)
     llenar_tablero(tab_usuario, pantalla)
     mostrar_puntaje()
+
+def volver_desde_cartel_ganaste():
+    """
+    Acción del botón 'Volver' del cartel de victoria.
+    Pone en_menu en True y cierra el cartel.
+    """
+    global salir_cartel_ganaste, en_menu
+    salir_cartel_ganaste = True
+    en_menu = True
+
+
+def mostrar_mensaje_ganaste_con_boton():
+    """
+    Muestra un cartel de victoria con un botón 'Volver'
+    que te lleva al menú principal.
+    """
+    global puntaje, salir_cartel_ganaste
+    salir_cartel_ganaste = False
+
+    boton_volver_menu = botones.Boton(
+        1002 // 2 - 100,
+        750 // 2 + 80,
+        200,
+        60,
+        "Volver",
+        color_base=(200, 200, 200),
+        color_hover=(250, 180, 0),
+        toggle=False,
+        accion=volver_desde_cartel_ganaste,
+    )
+
+    # Loop del cartel hasta que se haga click en 'Volver' o se cierre la ventana
+    while not salir_cartel_ganaste:
+        for evento in pg.event.get():
+            if evento.type == pg.QUIT:
+                finalizar()
+
+        overlay = pg.Surface((1002, 750), pg.SRCALPHA)
+        overlay.fill((0, 0, 0, 180))
+        pantalla.blit(overlay, (0, 0))
+
+        # Textos
+        fuente_titulo = pg.font.Font(None, 72)
+        fuente_texto = pg.font.Font(None, 48)
+
+        texto_titulo = fuente_titulo.render("¡Ganaste!", True, WHITE)
+        texto_puntaje = fuente_texto.render(f"Tu puntaje es de: {puntaje}", True, WHITE)
+
+        rect_titulo = texto_titulo.get_rect(center=(1002 // 2, 750 // 2 - 40))
+        rect_puntaje = texto_puntaje.get_rect(center=(1002 // 2, 750 // 2 + 10))
+
+        pantalla.blit(texto_titulo, rect_titulo)
+        pantalla.blit(texto_puntaje, rect_puntaje)
+
+        # Botón 'Volver'
+        boton_volver_menu.dibujar(pantalla)
+
+        pg.display.flip()
+        clock.tick(60)
 
 
 def mutear():
