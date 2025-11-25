@@ -8,12 +8,12 @@ import funciones.sudoku as sudoku
 from puntajes.puntaje import *
 
 pg.init()
-
 #  MÚSICA DE FONDO 
 volumen_musica = 0.5
 reproducir_musica_loop("./sonidos/musica_fondo.mp3", volumen_musica)
 
 #  ESTADO DE JUEGO 
+nombre_usuario = ""
 puntaje = 0
 regiones_completas = set()
 tablero_completo_bonificado = False
@@ -217,7 +217,7 @@ def volver_al_menu():
 #  BOTONES 
 # Menú
 boton_jugar = botones.Boton(
-    600, 350, 200, 80,
+    600, 250, 200, 80,
     "JUGAR",
     color_base=(200, 200, 200),
     color_hover=(250, 100, 0),
@@ -232,6 +232,15 @@ boton_salir = botones.Boton(
     color_hover=(250, 100, 0),
     toggle=False,
     accion=finalizar,
+)
+
+boton_puntajes = botones.Boton(
+    600, 340, 200, 80, 
+    "VER PUNTAJES",
+    color_base=(200, 200, 200),
+    color_hover=(250, 100, 0),
+    toggle=False,
+    accion= None
 )
 
 # Juego
@@ -295,6 +304,7 @@ while running:
 
         boton_jugar.dibujar(pantalla)
         boton_salir.dibujar(pantalla)
+        boton_puntajes.dibujar(pantalla)
 
         pg.display.flip()
         clock.tick(60)
