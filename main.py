@@ -27,6 +27,9 @@ dibujar_grilla(pantalla)
 llenar_tablero(tab_incompleto, pantalla)
 tab_usuario = [fila[:] for fila in tab_incompleto]
 
+print("Sudoku completo:")
+imprimir_tablero(tab_completo)
+
 # Para mostrar errores después de verificar
 errores_en_tablero = []
 mostrar_errores = False
@@ -189,7 +192,6 @@ def reiniciar_tablero() -> None:
     puntaje = 0
     errores_en_tablero = []
     mostrar_errores = False
-    salir_cartel_ganaste = False
 
     # Generar tablero nuevo
     sudoku.tab_completo = sudoku.generar_tablero_completo()
@@ -201,6 +203,9 @@ def reiniciar_tablero() -> None:
     tab_completo = sudoku.tab_completo
     tab_incompleto = sudoku.tab_incompleto
     tab_usuario = [fila[:] for fila in tab_incompleto]
+    
+    print("Sudoku reiniciado nuevo:")
+    imprimir_tablero(tab_completo)
 
     # Redibujar base
     pantalla.blit(fondo, (0, 0))
@@ -296,13 +301,19 @@ def finalizar() -> None:
 
 def comenzar_juego() -> None:
     """
-    Inicia el menú del juego y llama a la función reiniciar_tablero() para resetear todo.
+    Inicia el juego saliendo del menú principal.
     """
-    global en_menu
+    global en_menu, mostrar_errores, errores_en_tablero
+    global puntaje, regiones_completas, tablero_completo_bonificado
+
     en_menu = False
 
-    # Cada vez que empiezo a jugar, reseteo todo
-    reiniciar_tablero()
+    mostrar_errores = False
+    errores_en_tablero = []
+    puntaje = 0
+    regiones_completas = set()
+    tablero_completo_bonificado = False
+
 
 def puntaje_en_pantalla() -> None:
     """
