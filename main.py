@@ -200,19 +200,21 @@ def finalizar():
 
 
 def comenzar_juego():
-    """
-    Cambia del menú al juego.
-    """
     global en_menu
     en_menu = False
-    # Redibujar el tablero cuando empezamos
-    pantalla.blit(fondo, (0, 0))
-    dibujar_grilla(pantalla)
-    llenar_tablero(tab_usuario, pantalla)
-    mostrar_puntaje()
+
+    # Cada vez que empiezo a jugar, reseteo todo
+    reiniciar_tablero()
+
+    
+def volver_al_menu():
+    global en_menu
+
+    # Volver a la pantalla de menú
+    en_menu = True
 
 
-# ------------------ BOTONES ------------------
+#  BOTONES 
 # Menú
 boton_jugar = botones.Boton(
     600, 350, 200, 80,
@@ -267,6 +269,15 @@ boton_desmute = botones.Boton(
     color_hover=(250, 100, 0),
     toggle=False,
     accion=desmutear,
+)
+
+boton_volver = botones.Boton(
+    703, 177, 240, 52,
+    "VOLVER",
+    color_base=(200, 200, 200),
+    color_hover=(250, 100, 0),
+    toggle=False,
+    accion=volver_al_menu,
 )
 
 clock = pg.time.Clock()
@@ -349,6 +360,7 @@ while running:
     # Botones del juego
     boton_verificar.dibujar(pantalla)
     boton_reiniciar.dibujar(pantalla)
+    boton_volver.dibujar(pantalla)  
     boton_mute.dibujar(pantalla)
     boton_desmute.dibujar(pantalla)
 
