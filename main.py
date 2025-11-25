@@ -161,7 +161,7 @@ def verificar_tablero() -> None:
     if tablero_completo_correcto and not tablero_completo_bonificado:
         puntaje += 81
         tablero_completo_bonificado = True
-        nombre = ""  # SE TIENE QUE AGREGAR NOMBRE EN PANTALLA
+        nombre = nombre_de_usuario_ingresado
         guardar_puntajes(puntaje, nombre)
         mostrar_mensaje_ganaste_con_boton()
 
@@ -250,7 +250,7 @@ def mostrar_mensaje_ganaste_con_boton():
         fuente_titulo = pg.font.Font(None, 72)
         fuente_texto = pg.font.Font(None, 48)
 
-        texto_titulo = fuente_titulo.render("¡Ganaste!", True, WHITE)
+        texto_titulo = fuente_titulo.render(f"¡Ganaste, {nombre_de_usuario_ingresado}!", True, WHITE)
         texto_puntaje = fuente_texto.render(f"Tu puntaje es de: {puntaje}", True, WHITE)
 
         rect_titulo = texto_titulo.get_rect(center=(1002 // 2, 750 // 2 - 40))
@@ -292,7 +292,7 @@ def comenzar_juego():
 
 def puntaje_en_pantalla():
     global en_puntajes
-    en_puntajes = True
+    en_puntajes = not en_puntajes 
     
 def volver_al_menu():
     global en_menu, en_puntajes
@@ -378,12 +378,8 @@ boton_volver = botones.Boton(
     accion=volver_al_menu,
 )
 
-##############
 
-
-barra = crear_barra_texto(40, 680,300,30)
-
-
+barra = crear_barra_texto(585, 310, 300, 30)
 nombre_de_usuario_ingresado = ""
 
 
@@ -397,35 +393,27 @@ while running:
         for evento in pg.event.get():
             if evento.type == pg.QUIT:
                 finalizar()
-            if manejar_barra(barra, evento):
-
-                nombre_de_usuario_ingresado = obtener_texto(barra)
-
-                print("Texto:", obtener_texto(barra))
-                print(f"valor de variable nombre_de_usuario_ingresado\n:tipo{type(nombre_de_usuario_ingresado)}\nnick : {nombre_de_usuario_ingresado}")
-                
-
             
-
-
-                dibujar_barra(barra, pantalla)
+            if manejar_barra(barra, evento):
+                nombre_de_usuario_ingresado = obtener_texto(barra)
+                print(f"Valor de variable nombre_de_usuario_ingresado\n:tipo{type(nombre_de_usuario_ingresado)}\nnick : {nombre_de_usuario_ingresado}")
         
         if en_puntajes:
+            pantalla.blit(fondo_menu, (0, 0))
             ver_puntajes()
         
         else:
             pantalla.blit(fondo_menu, (0, 0))
     
-        dibujar_barra(barra, pantalla) 
+        if nombre_de_usuario_ingresado == "":
+            dibujar_barra(barra, pantalla) 
+        else:
+            boton_jugar.dibujar(pantalla)
+        
         boton_mute.dibujar(pantalla)
         boton_desmute.dibujar(pantalla)   
-                
         
         
-
-
-
-        boton_jugar.dibujar(pantalla)
         boton_salir.dibujar(pantalla)
         boton_puntajes.dibujar(pantalla)
 
