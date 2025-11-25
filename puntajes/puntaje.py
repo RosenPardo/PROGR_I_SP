@@ -35,17 +35,7 @@ def guardar_puntajes(puntaje: int, nombre: str) -> list:
 
     return lista_ordenada
 
-def ver_puntajes() -> list:
-    """
-    Función que lee el archivo json de mejores puntajes.
 
-    Returns:
-        list: Lista de los 5 mejores puntajes obtenidos en el juego.
-    """
-    with open('./puntajes/mejores_puntajes.json', 'r') as archivo_json:
-        puntajes = json.load(archivo_json)
-    
-    return puntajes
 
 def nombre_ingresado(evento, pantalla, nombre_usuario):
     BLANCO = (255, 255, 255)

@@ -41,6 +41,7 @@ fuente_puntaje = pg.font.Font(None, 40)
 
 # Estado general
 en_menu = True
+en_puntajes = False
 running = True
 
 #  FUNCIONES AUXILIARES 
@@ -83,6 +84,26 @@ def mostrar_puntaje() -> None:
 
     rectangulo(pantalla, "orange", 293, 8, 170, 30)
     pantalla.blit(render, (298, 10))
+
+def ver_puntajes() -> list:
+    """
+    Función que lee el archivo json de mejores puntajes.
+
+    Returns:
+        list: Lista de los 5 mejores puntajes obtenidos en el juego.
+    """
+    
+    with open('./puntajes/mejores_puntajes.json', 'r') as archivo_json:
+        puntajes = json.load(archivo_json)
+
+    fuente = pg.font.Font(None, 30)
+    
+    
+
+    for i, puntaje in enumerate(puntajes):
+        texto = fuente.render(f"{i+1}°: {puntaje['nombre']} | {puntaje['puntaje']} puntos", True, "white")
+        if puntaje["puntaje"] > 0:
+            pantalla.blit(texto, (95, 160 + i * 40))  # Espaciado vertical entre elementos
 
 
 def verificar_tablero() -> None:
@@ -267,18 +288,23 @@ def comenzar_juego():
     # Cada vez que empiezo a jugar, reseteo todo
     reiniciar_tablero()
 
+def puntaje_en_pantalla():
+    global en_puntajes
+    en_puntajes = True
     
 def volver_al_menu():
-    global en_menu
+    global en_menu, en_puntajes
 
     # Volver a la pantalla de menú
     en_menu = True
+    en_puntajes = False
+
 
 
 #  BOTONES 
 # Menú
 boton_jugar = botones.Boton(
-    600, 250, 200, 80,
+    750, 310, 200, 80,
     "JUGAR",
     color_base=(200, 200, 200),
     color_hover=(250, 100, 0),
@@ -296,12 +322,12 @@ boton_salir = botones.Boton(
 )
 
 boton_puntajes = botones.Boton(
-    600, 340, 200, 80, 
+    750, 400, 200, 80, 
     "VER PUNTAJES",
     color_base=(200, 200, 200),
     color_hover=(250, 100, 0),
     toggle=False,
-    accion= None
+    accion= puntaje_en_pantalla
 )
 
 # Juego
@@ -361,8 +387,11 @@ while running:
             if evento.type == pg.QUIT:
                 finalizar()
 
-        pantalla.blit(fondo_menu, (0, 0))
-
+        if en_puntajes:
+            ver_puntajes()
+        else:
+            pantalla.blit(fondo_menu, (0, 0))
+        
         boton_jugar.dibujar(pantalla)
         boton_salir.dibujar(pantalla)
         boton_puntajes.dibujar(pantalla)
