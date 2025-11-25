@@ -1,5 +1,51 @@
 import random
 
+def generar_tablero_completo():
+    """
+    Crea un tablero vacío (lleno de ceros) y utiliza la función resolver para
+    rellenarlo siguiendo las reglas del Sudoku.
+
+    Returns:
+        list[list[int]]: Matriz 9x9 con un Sudoku completo y válido (sin ceros).
+    """
+    tablero = [[0 for _ in range(9)] for _ in range(9)]
+    resolver(tablero)
+    return tablero
+
+
+def crear_sudoku_incompleto_por_bloque(tablero_completo, visibles_por_bloque=5):
+    """
+    Crea un Sudoku incompleto a partir de un tablero completo, ocultando valores por bloque.
+
+    En cada bloque 3x3 se eligen al azar una cierta cantidad de casilleros que quedarán visibles,
+    y el resto se reemplaza por 0 para que el jugador los complete.
+
+    Args:
+        tablero_completo (list[list[int]]): Matriz 9x9 con un Sudoku completo y válido.
+        visibles_por_bloque (int, opcional): Cantidad de casilleros visibles por cada bloque 3x3. Por defecto es 5.
+
+    Returns:
+        list[list[int]]: Matriz 9x9 con el Sudoku incompleto (contiene ceros en los casilleros ocultos).
+    """
+    tablero = [fila[:] for fila in tablero_completo]
+
+    for start_fila in (0, 3, 6):
+        for start_columna in (0, 3, 6):
+            posiciones = [
+                (start_fila + df, start_columna + dc)
+                for df in range(3)
+                for dc in range(3)
+            ]
+
+            visibles = set(random.sample(posiciones, visibles_por_bloque))
+
+            for f, c in posiciones:
+                if (f, c) not in visibles:
+                    tablero[f][c] = 0
+
+    return tablero
+
+
 def es_valido(tablero, fila, columna, numero):
     """
     Verifica si un número se puede colocar en una posición del tablero respetando las reglas del Sudoku.
@@ -36,8 +82,6 @@ def es_valido(tablero, fila, columna, numero):
 
 def resolver(tablero):
     """
-    Resuelve un tablero de Sudoku utilizando backtracking.
-
     Recorre el tablero buscando casilleros vacíos (0) e intenta rellenarlos con números
     del 1 al 9 de forma aleatoria, validando cada intento con la función es_valido.
 
@@ -62,60 +106,10 @@ def resolver(tablero):
     return True
 
 
-def generar_tablero_completo():
-    """
-    Genera un tablero de Sudoku 9x9 completo y válido.
-
-    Crea un tablero vacío (lleno de ceros) y utiliza la función resolver para
-    rellenarlo siguiendo las reglas del Sudoku.
-
-    Returns:
-        list[list[int]]: Matriz 9x9 con un Sudoku completo y válido (sin ceros).
-    """
-    tablero = [[0 for _ in range(9)] for _ in range(9)]
-    resolver(tablero)
-    return tablero
-
-
-def crear_sudoku_incompleto_por_bloque(tablero_completo, visibles_por_bloque=5):
-    """
-    Crea un Sudoku incompleto a partir de un tablero completo, ocultando valores por bloque 3x3.
-
-    En cada bloque 3x3 se eligen al azar una cierta cantidad de casilleros que quedarán visibles,
-    y el resto se reemplaza por 0 para que el jugador los complete.
-
-    Args:
-        tablero_completo (list[list[int]]): Matriz 9x9 con un Sudoku completo y válido.
-        visibles_por_bloque (int, opcional): Cantidad de casilleros visibles por cada bloque 3x3.
-                                             Por defecto es 5.
-
-    Returns:
-        list[list[int]]: Matriz 9x9 con el Sudoku incompleto (contiene ceros en los casilleros ocultos).
-    """
-    tablero = [fila[:] for fila in tablero_completo]
-
-    for start_fila in (0, 3, 6):
-        for start_columna in (0, 3, 6):
-            posiciones = [
-                (start_fila + df, start_columna + dc)
-                for df in range(3)
-                for dc in range(3)
-            ]
-
-            visibles = set(random.sample(posiciones, visibles_por_bloque))
-
-            for f, c in posiciones:
-                if (f, c) not in visibles:
-                    tablero[f][c] = 0
-
-    return tablero
 
 def imprimir_tablero(tablero):
     """
     Imprime el tablero de Sudoku en consola con separadores entre filas y columnas.
-
-    Muestra el tablero en formato legible, marcando las divisiones de los bloques 3x3
-    con líneas horizontales y barras verticales.
 
     Args:
         tablero (list[list[int]]): Matriz 9x9 que representa el tablero de Sudoku a imprimir.
