@@ -17,7 +17,7 @@ def dibujar_barra(barra, pantalla):
     pg.draw.rect(pantalla, (0, 0, 0), barra['rect'], 2)
     
     # Botón
-    color_boton = (100, 200, 100) if not barra['activo'] else (80, 180, 80)
+    color_boton = "orange" if not barra['activo'] else (80, 180, 80)
     pg.draw.rect(pantalla, color_boton, barra['rect_boton'])
     pg.draw.rect(pantalla, (50, 50, 50), barra['rect_boton'], 2)
     
@@ -29,10 +29,11 @@ def dibujar_barra(barra, pantalla):
     pantalla.blit(texto_boton, (barra['rect_boton'].x + 10, barra['rect_boton'].y + 10))
     
     # Texto barra
-    texto_mostrar = barra['texto'] or "Nombre..."
+    texto_mostrar = barra['texto'] or "INGRESE SU USUARIO"
     color_texto = (0, 0, 0) if barra['texto'] else (150, 150, 150)
     texto_surface = fuente.render(texto_mostrar[-20:], True, color_texto)
-    pantalla.blit(texto_surface, (barra['rect'].x + 5, barra['rect'].y + 10))
+
+    pantalla.blit(texto_surface, (barra['rect'].x + 50, barra['rect'].y + 10)) #
 
 def manejar_barra(barra, evento):
     """Maneja eventos de la barra"""

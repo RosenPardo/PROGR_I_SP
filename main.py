@@ -7,6 +7,8 @@ from funciones.teclas import *
 import funciones.sudoku as sudoku
 from puntajes.puntaje import *
 
+from puntajes.barra_texto import *
+
 pg.init()
 #  MÚSICA DE FONDO 
 volumen_musica = 0.5
@@ -376,7 +378,13 @@ boton_volver = botones.Boton(
     accion=volver_al_menu,
 )
 
+##############
 
+
+barra = crear_barra_texto(40, 680,300,30)
+
+
+nombre_de_usuario_ingresado = ""
 
 
 clock = pg.time.Clock()
@@ -389,12 +397,34 @@ while running:
         for evento in pg.event.get():
             if evento.type == pg.QUIT:
                 finalizar()
+            if manejar_barra(barra, evento):
 
+                nombre_de_usuario_ingresado = obtener_texto(barra)
+
+                print("Texto:", obtener_texto(barra))
+                print(f"valor de variable nombre_de_usuario_ingresado\n:tipo{type(nombre_de_usuario_ingresado)}\nnick : {nombre_de_usuario_ingresado}")
+                
+
+            
+
+
+                dibujar_barra(barra, pantalla)
+        
         if en_puntajes:
             ver_puntajes()
+        
         else:
             pantalla.blit(fondo_menu, (0, 0))
+    
+        dibujar_barra(barra, pantalla) 
+        boton_mute.dibujar(pantalla)
+        boton_desmute.dibujar(pantalla)   
+                
         
+        
+
+
+
         boton_jugar.dibujar(pantalla)
         boton_salir.dibujar(pantalla)
         boton_puntajes.dibujar(pantalla)
