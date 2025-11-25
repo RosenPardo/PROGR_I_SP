@@ -173,7 +173,7 @@ def dibujar_grilla(pantalla):
 
 def celda_seleccionada(evento, columnas_rangos, filas_rangos, pantalla):
     """
-        sellecciona y resalta la celda de un tablero de Sudoku seleccionada por el usuario.
+        selecciona y resalta la celda de un tablero de Sudoku seleccionada por el usuario.
 
         Args:
             evento (pygame.Event): Evento de PyGame de la posición del clic del mouse.
@@ -189,6 +189,9 @@ def celda_seleccionada(evento, columnas_rangos, filas_rangos, pantalla):
                                     - No se encuentra una celda válida
     """
     x, y = evento.pos
+    seleccion = None # acá vamos a guardar (inicio_x, inicio_y) si la celda es válida
+    terminar = False # bandera para salir de los dos bucles cuando encontremos la celda
+
     for col in range(9):
         inicio_x, fin_x = columnas_rangos[col]
         if inicio_x <= x <= fin_x:
@@ -196,11 +199,19 @@ def celda_seleccionada(evento, columnas_rangos, filas_rangos, pantalla):
                 inicio_y, fin_y = filas_rangos[fila]
                 if inicio_y <= y <= fin_y:
 
-                    if sudoku.tab_incompleto[fila][col] != 0:
-                        return None
+                    # Si la celda pertenece al tablero original (no editable)
+                    if sudoku.tab_incompleto[fila][col] == 0:
+                        # Redibujamos la grilla y marcamos la celda
+                        dibujar_grilla(pantalla)
+                        pg.draw.rect(pantalla, COLOR_AMARILLO, (inicio_x, inicio_y, ancho, alto), 4)
+                        seleccion = (inicio_x, inicio_y)
 
-                    dibujar_grilla(pantalla)
-                    pg.draw.rect(pantalla, COLOR_AMARILLO, (inicio_x, inicio_y, ancho, alto), 4)
-                    return inicio_x, inicio_y
+                    terminar = True
+                    break
+        if terminar:
+            break
+
+    return seleccion
+
 
 
